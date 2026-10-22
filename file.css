@@ -41,7 +41,7 @@
 }
 #secret .story{display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;align-items:start}
 #secret .toc{position:sticky;top:calc(var(--head-h) + env(safe-area-inset-top,0px) + 24px);display:grid;gap:2px;border-left:1px solid var(--line)}
-#secret .toc a{display:grid;gap:0;text-decoration:none;padding:8px 0 8px 16px;margin-left:-1px;border-left:2px solid transparent;color:var(--muted);font-size:14.5px}
+#secret .toc a{display:grid;gap:0;align-content:start;text-decoration:none;padding:8px 0 8px 16px;margin-left:-1px;border-left:2px solid transparent;color:var(--muted);font-size:14.5px}
 #secret .toc a span{font-family:var(--mono);font-size:11px;letter-spacing:.1em}
 #secret .toc a:hover,#secret .toc a.on{color:var(--ink);border-left-color:var(--accent)}
 #secret .chapter{scroll-margin-top:calc(var(--head-h) + 20px)}
@@ -58,7 +58,7 @@
 #secret .prose .break{text-align:center;color:var(--muted);letter-spacing:.6em;font-family:var(--mono)}
 #secret .prose .ln{white-space:pre-line}
 @media (max-width:820px){#secret .story{grid-template-columns:1fr;gap:20px}
-#secret .toc{position:static;display:flex;flex-wrap:wrap;gap:6px;border-left:0}
+#secret .toc{position:static;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;border-left:0}
 #secret .toc a{border:1px solid var(--line);padding:6px 12px;margin:0;background:var(--paper)}
 #secret .toc a:hover,#secret .toc a.on{border-color:var(--accent)}
 }

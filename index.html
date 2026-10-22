@@ -292,7 +292,8 @@ body.hidden-mode .stamp{animation:stampdrop .5s cubic-bezier(.2,.9,.3,1.2) .15s 
 
 footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--muted);font-size:13.5px;line-height:1.26}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px}
-.file-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px;padding-bottom:16px}
+.file-actions{border-top:1px solid var(--line);padding-block:40px 64px}
+.file-actions .container{display:flex;flex-wrap:wrap;gap:12px}
 .file-actions .back{margin-top:0}
 /* PDF 저장(인쇄): 참가자 파일 본문만 */
 @page{margin:14mm 12mm}
@@ -484,8 +485,8 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
 
   <section id="secret" data-page="secret">
     <div id="secret-body"></div>
-    <div class="container">
-      <div class="file-actions">
+    <div class="file-actions">
+      <div class="container">
         <button type="button" class="back" data-view="cast">← 참가자로 돌아가기</button>
         <button type="button" class="back" id="secret-pdf">PDF로 저장</button>
       </div>
@@ -507,9 +508,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   </div>
 </footer>
 
-<link rel="stylesheet" href="file.css?v=20261022h">
-<script src="secrets.js?v=20261022h"></script>
-<script src="file.js?v=20261022h"></script>
+<link rel="stylesheet" href="file.css?v=20261022i">
+<script src="secrets.js?v=20261022i"></script>
+<script src="file.js?v=20261022i"></script>
 <script>
 (function(){
   /* mobile menu */
