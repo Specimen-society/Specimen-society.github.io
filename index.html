@@ -661,7 +661,7 @@ function wrap(root){
   var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
     if(!/[가-힣]/.test(n.nodeValue))return NodeFilter.FILTER_REJECT;
     for(var e=n.parentNode;e&&e!==document.body;e=e.parentNode){
-      if(SKIP[e.nodeName.toUpperCase()]||(e.classList&&e.classList.contains('wd')))return NodeFilter.FILTER_REJECT;
+      if(SKIP[e.nodeName.toUpperCase()]||(e.classList&&e.classList.contains('wd'))||e.id==='secret-body')return NodeFilter.FILTER_REJECT;
     }
     return NodeFilter.FILTER_ACCEPT;}});
   var list=[],n;while(n=w.nextNode())list.push(n);
