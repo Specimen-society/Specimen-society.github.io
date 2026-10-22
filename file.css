@@ -72,6 +72,9 @@
 #secret th{font-family:var(--mono);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--muted);border-bottom:1.5px solid var(--ink)}
 #secret tr:last-child td{border-bottom:0}
 #secret td.day{font-family:var(--mono);white-space:nowrap;width:6.5em;color:var(--accent);font-variant-numeric:tabular-nums}
+#secret thead th:first-child{width:6.5em}
+@media (max-width:640px){#secret thead th:first-child{width:4.6em}
+}
 #secret .blank{display:block;min-height:1.7em;border-bottom:1px dashed var(--line);color:var(--muted);font-size:13px}
 #secret .blank.hint{border-bottom:0}
 #secret .two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -79,8 +82,8 @@
 @media (max-width:900px){#secret .two{grid-template-columns:1fr}
 }
 #secret .note{margin-bottom:14px;color:var(--stamp);font-weight:500}
-#secret .ev{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-#secret .ev-slot{border:1.5px dashed var(--line);padding:18px;display:grid;gap:6px;min-height:150px;align-content:space-between;background:color-mix(in srgb,var(--paper) 50%,transparent)}
+#secret .ev{display:grid;grid-template-columns:1fr;gap:12px}
+#secret .ev-slot{border:1.5px dashed var(--line);padding:18px;display:grid;gap:6px;min-height:120px;align-content:space-between;background:color-mix(in srgb,var(--paper) 50%,transparent)}
 #secret .ev-slot b{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.1em;color:var(--muted)}
 #secret .ev-slot p{color:var(--muted);font-size:14px}
 @media (max-width:640px){#secret .ev{grid-template-columns:1fr}
