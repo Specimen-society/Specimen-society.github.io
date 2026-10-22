@@ -260,6 +260,7 @@ button.slot[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink
 .close:hover{border-color:var(--ink)}
 .p-secret{margin:0 auto 0 14px;padding:4px 0;background:none;border:0;font-size:13px;color:var(--muted);opacity:.45;cursor:pointer;transition:opacity .2s}
 .p-secret:hover,.p-secret:focus-visible{opacity:1;color:var(--ink)}
+.p-secret:focus-visible{outline:0;text-decoration:underline;text-underline-offset:3px}
 .lock{width:min(420px,calc(100vw - 32px))}
 .lock form{display:grid;gap:12px}
 .lock input{font:inherit;font-family:var(--mono);font-size:18px;letter-spacing:.2em;padding:10px 12px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);width:100%}
@@ -431,7 +432,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
       <div class="sec-head"><span class="label">참가자</span><h2>열두 개의 표본</h2><p>카드를 누르면 입소 전 인터뷰의 한마디를 볼 수 있습니다.</p></div>
       <div class="cast" id="cast-grid"></div>
       <dialog class="profile" id="profile" aria-labelledby="p-nick">
-        <header><b id="p-no"></b><button type="button" class="p-secret" id="p-secret" hidden>상세 정보 확인하기</button><button class="close" id="p-close" type="button" aria-label="닫기">×</button></header>
+        <header><b id="p-no"></b><button type="button" class="p-secret" id="p-secret" hidden>상세 정보 확인하기</button><button class="close" id="p-close" type="button" autofocus aria-label="닫기">×</button></header>
         <div class="p-body">
           <div class="big" id="p-nick"></div>
           <span class="out-tag big-tag" id="p-status" hidden></span>
@@ -501,14 +502,16 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
 
   /* page views */
   var pages=document.querySelectorAll("main > section[data-page]"),viewBtns=document.querySelectorAll("[data-view]");
+  var view="home";
+  function setHash(h){try{history.replaceState(null,"",h)}catch(e){}}
   function showView(v){
-    var first=true;
+    var first=true;view=v;
     pages.forEach(function(sec){var on=sec.dataset.page===v;sec.hidden=!on;sec.classList.remove("page-first");if(on&&first){sec.classList.add("page-first");first=false}});
     document.body.classList.toggle("hidden-mode",v==="shadow");
     document.querySelectorAll(".nav [data-view],.mobile-nav [data-view]").forEach(function(b){var on=b.dataset.view===v;b.classList.toggle("on",on);if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
     mn.hidden=true;mb.setAttribute("aria-expanded","false");
     window.scrollTo(0,0);
-    try{history.replaceState(null,"",v==="home"?location.pathname+location.search:"#"+v)}catch(e){}
+    setHash(v==="home"?location.pathname+location.search:"#"+v);
   }
   viewBtns.forEach(function(b){b.addEventListener("click",function(e){e.preventDefault();showView(b.dataset.view)})});
   document.getElementById("back-btn").addEventListener("click",function(){showView("home")});
@@ -571,12 +574,12 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   var dlg=document.getElementById("profile"),cur=0,opener=null;
   function fill(i){cur=i;var c=cast[i],no=String(i+1).padStart(2,"0");document.getElementById("p-no").textContent="SPECIMEN "+no;
     document.getElementById("p-secret").hidden=!(window.SECRETS&&SECRETS[no]);
-    document.getElementById("p-nick").textContent=c[0];
+    document.getElementById("p-nick").textContent=c[0];setHash("#specimen-"+no);
     var st=document.getElementById("p-status");st.hidden=!c[2];st.textContent=c[2]?c[2]+"일차 밤 탈락":"";document.getElementById("p-q").textContent="“"+c[1]+"”"}
   function pick(i){fill(i);opener=document.getElementById("cast-"+(i+1));
     if(typeof dlg.showModal==="function"){if(!dlg.open)dlg.showModal()}else{dlg.setAttribute("open","")}}
   function close(){if(dlg.open){typeof dlg.close==="function"?dlg.close():dlg.removeAttribute("open")}}
-  dlg.addEventListener("close",function(){if(opener)opener.focus()});
+  dlg.addEventListener("close",function(){if(dlg.open)return;if(view==="cast")setHash("#cast");if(opener)opener.focus()});
   document.getElementById("p-close").addEventListener("click",close);
   document.getElementById("p-prev").addEventListener("click",function(){fill((cur+cast.length-1)%cast.length)});
   document.getElementById("p-next").addEventListener("click",function(){fill((cur+1)%cast.length)});
@@ -591,12 +594,14 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
       .then(function(base){return cs.deriveKey({name:"PBKDF2",salt:unb64(rec.s),iterations:rec.n,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"])})
       .then(function(key){return cs.decrypt({name:"AES-GCM",iv:unb64(rec.v)},key,unb64(rec.c))})
       .then(function(buf){return new TextDecoder().decode(buf)})}
-  document.getElementById("p-secret").addEventListener("click",function(){
+  function openLock(){
     lockNo=String(cur+1).padStart(2,"0");document.getElementById("lock-no").textContent="SPECIMEN "+lockNo;
     pw.value="";err.textContent="";go.disabled=false;
     if(typeof lock.showModal==="function"){if(!lock.open)lock.showModal()}else{lock.setAttribute("open","")}
-    pw.focus()});
+    setHash("#secret-"+lockNo);pw.focus()}
+  document.getElementById("p-secret").addEventListener("click",openLock);
   function closeLock(){if(lock.open){typeof lock.close==="function"?lock.close():lock.removeAttribute("open")}}
+  lock.addEventListener("close",function(){if(!lock.open&&dlg.open)setHash("#specimen-"+String(cur+1).padStart(2,"0"))});
   document.getElementById("lock-close").addEventListener("click",closeLock);
   lock.addEventListener("click",function(e){if(e.target===lock)closeLock()});
   document.getElementById("lock-form").addEventListener("submit",function(e){e.preventDefault();
@@ -606,6 +611,16 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
       document.getElementById("secret-body").innerHTML=html;
       opener=null;closeLock();close();showView("secret");
     },function(){err.textContent="암호가 일치하지 않습니다.";pw.select()}).then(function(){go.disabled=false})});
+
+  /* 개별 링크: #specimen-02 = 참가자 카드, #secret-02 = 암호 입력 */
+  function route(h){
+    var m=/^#(specimen|secret)-(\d\d)$/.exec(h||location.hash),i=m?+m[2]-1:-1;
+    if(!cast[i])return false;
+    closeLock();if(view!=="cast")showView("cast");pick(i);
+    if(m[1]==="secret"&&window.SECRETS&&SECRETS[m[2]])openLock();
+    return true}
+  window.addEventListener("hashchange",function(){if(!route()){var v=location.hash.slice(1);if(["rules","cast","shadow"].indexOf(v)>-1)showView(v)}});
+  route("#"+start);
 })();
 </script>
 <script>
