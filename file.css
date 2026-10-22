@@ -1,4 +1,4 @@
-/* 참가자 파일(시크릿 페이지) — 각 인물 파일 아티팩트의 스타일을 #secret 안으로 한정 */
+/* 참가자 파일(시크릿 페이지) — 인물 파일 아티팩트의 스타일을 #secret 안으로 한정. secret-src/port.mjs 로 생성 */
 #secret .file-head{padding-block:48px 56px}
 #secret .fh-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:end}
 #secret .fh-grid>*{min-width:0}
@@ -62,12 +62,16 @@
 #secret .toc a{border:1px solid var(--line);padding:6px 12px;margin:0;background:var(--paper)}
 #secret .toc a:hover,#secret .toc a.on{border-color:var(--accent)}
 }
-#secret .tbl-wrap{overflow-x:auto;border:1.5px solid var(--ink);background:var(--paper)}
-#secret table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+#secret .tbl-wrap{border:1.5px solid var(--ink);background:var(--paper)}
+#secret table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:15px}
+@media (max-width:640px){#secret th,#secret td{padding:10px 8px;font-size:14px}
+#secret th{font-size:11px;letter-spacing:.04em}
+#secret td.day{width:4.6em;white-space:normal}
+}
 #secret th,#secret td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
 #secret th{font-family:var(--mono);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--muted);border-bottom:1.5px solid var(--ink)}
 #secret tr:last-child td{border-bottom:0}
-#secret td.day{font-family:var(--mono);white-space:nowrap;width:7em;color:var(--accent);font-variant-numeric:tabular-nums}
+#secret td.day{font-family:var(--mono);white-space:nowrap;width:6.5em;color:var(--accent);font-variant-numeric:tabular-nums}
 #secret .blank{display:block;min-height:1.7em;border-bottom:1px dashed var(--line);color:var(--muted);font-size:13px}
 #secret .blank.hint{border-bottom:0}
 #secret .two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -81,7 +85,7 @@
 #secret .ev-slot p{color:var(--muted);font-size:14px}
 @media (max-width:640px){#secret .ev{grid-template-columns:1fr}
 }
-#secret .rels{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+#secret .rels{display:grid;grid-template-columns:1fr;gap:12px}
 #secret .rel{background:var(--paper);border:1px solid var(--line);padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
 #secret .rel header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 #secret .rel .nk{font-family:var(--display);font-size:26px;line-height:1.2}

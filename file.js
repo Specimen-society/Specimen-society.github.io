@@ -1,4 +1,4 @@
-/* 참가자 파일 렌더러 — 각 인물 파일 아티팩트의 render()를 옮겨 옴. 데이터는 secrets.js에서 암호로 풀어 넘겨받음 */
+/* 참가자 파일 렌더러 — 인물 파일 아티팩트의 render()를 옮겨 옴. secret-src/port.mjs 로 생성. 데이터는 secrets.js에서 암호로 풀어 넘겨받음 */
 (function(){
 var AX=[{R:"전통",P:"변화"},{E:"경쟁",W:"분배"},{U:"집단",I:"개인"},{O:"인정",C:"배제"}];
 var ALL=["제우스","머니","히어로","백지","카니","새벽"];
@@ -45,9 +45,9 @@ function render(f){
     h+='<article class="chapter" id="ch-'+f.id+'-'+(k+1)+'"><h3><span>'+pad(k+1)+'</span>'+esc(t)+'</h3><div class="prose">'+c.p.map(para).join("")+'</div></article>'});
   h+='</div></div></div></section>';
 
-  h+='<section class="sec" id="record"><div class="container two"><div><div class="sec-head"><span class="label">기록</span><h2>표본사회 6일의 기록</h2><p>일차별로 있었던 일을 채워 넣는 칸입니다.</p></div><div class="tbl-wrap"><table><thead><tr><th>일차</th><th>있었던 일</th></tr></thead><tbody>';
+  h+='<section class="sec" id="record"><div class="container"><div><div class="sec-head"><span class="label">기록</span><h2>표본사회 6일의 기록</h2><p>일차별로 있었던 일을 채워 넣는 칸입니다.</p></div><div class="tbl-wrap"><table><thead><tr><th>일차</th><th>있었던 일</th></tr></thead><tbody>';
   f.rec.forEach(function(d){h+='<tr><td class="day">'+esc(d)+'일차</td><td><span class="blank"></span></td></tr>'});
-  h+='</tbody></table></div></div><div><div class="sec-head"><span class="label">행적</span><h2>'+(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적')+'</h2><p>'+(f.culprit?'당신만 알고 있는 진실입니다.':'시각별로 장소와 한 일을 적는 칸입니다.')+'</p></div><div class="tbl-wrap"><table><thead><tr><th>시각</th><th>장소</th><th>한 일</th>'+(f.culprit?'':'<th>보고 들은 것</th>')+'</tr></thead><tbody>';
+  h+='</tbody></table></div></div></div></section><section class="sec" id="night"><div class="container"><div><div class="sec-head"><span class="label">행적</span><h2>'+(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적')+'</h2><p>'+(f.culprit?'당신만 알고 있는 진실입니다.':'시각별로 장소와 한 일을 적는 칸입니다.')+'</p></div><div class="tbl-wrap"><table><thead><tr><th>시각</th><th>장소</th><th>한 일</th>'+(f.culprit?'':'<th>보고 들은 것</th>')+'</tr></thead><tbody>';
   for(var r=0;r<4;r++){h+='<tr><td class="day"><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td>'+(f.culprit?'':'<td><span class="blank"></span></td>')+'</tr>'}
   h+='</tbody></table></div></div></div></section>';
 
