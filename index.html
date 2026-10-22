@@ -292,6 +292,20 @@ body.hidden-mode .stamp{animation:stampdrop .5s cubic-bezier(.2,.9,.3,1.2) .15s 
 
 footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--muted);font-size:13.5px;line-height:1.26}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px}
+.file-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px;padding-bottom:16px}
+.file-actions .back{margin-top:0}
+/* PDF 저장(인쇄): 참가자 파일 본문만 */
+@page{margin:14mm 12mm}
+@media print{
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact;transition:none}
+  .site-head,footer,.stamp,dialog,.file-actions,main>section:not(#secret){display:none!important}
+  section[data-page]{animation:none}
+  #secret .toc{position:static}
+  #secret .file-head{padding-top:0}
+  #secret .sec{padding-block:28px}
+  #secret .qcard,#secret .rel,#secret .ev-slot,#secret tr,#secret .label-card,#secret .chapter h3{break-inside:avoid}
+  #secret .sec-head{break-after:avoid}
+}
 </style>
 
 <header class="site-head">
@@ -471,7 +485,10 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   <section id="secret" data-page="secret">
     <div id="secret-body"></div>
     <div class="container">
-      <button type="button" class="back back-bottom" data-view="cast">← 참가자로 돌아가기</button>
+      <div class="file-actions">
+        <button type="button" class="back" data-view="cast">← 참가자로 돌아가기</button>
+        <button type="button" class="back" id="secret-pdf">PDF로 저장</button>
+      </div>
     </div>
   </section>
 </main>
@@ -618,10 +635,18 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
     go.disabled=true;err.textContent="";
     pw.value=toEng(pw.value);
     decrypt(SECRETS[lockNo],pw.value).then(function(text){
-      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);
+      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);curFile=f;
       opener=null;closeLock();close();showView("secret");
       if(f.culprit)document.body.classList.add("hidden-mode","no-stamp");
     },function(){err.textContent="암호가 일치하지 않습니다.";pw.select()}).then(function(){go.disabled=false})});
+
+  /* PDF로 저장: 브라우저 인쇄 창 → 'PDF로 저장' */
+  var curFile=null;
+  document.getElementById("secret-pdf").addEventListener("click",function(){
+    var old=document.title;
+    if(curFile)document.title="표본사회 참가자 파일 "+String(curFile.no).padStart(2,"0")+" "+curFile.nick;
+    window.addEventListener("afterprint",function(){document.title=old},{once:true});
+    window.print()});
 
   /* 개별 링크: #specimen-02 = 참가자 카드, #secret-02 = 암호 입력 */
   function route(h){
