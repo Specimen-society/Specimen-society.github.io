@@ -45,7 +45,7 @@ function render(f){
     h+='<article class="chapter" id="ch-'+f.id+'-'+(k+1)+'"><h3><span>'+pad(k+1)+'</span>'+esc(t)+'</h3><div class="prose">'+c.p.map(para).join("")+'</div></article>'});
   h+='</div></div></div></section>';
 
-  h+='<section class="sec" id="record"><div class="container"><div><div class="sec-head"><span class="label">기록</span><h2>표본사회 6일의 기록</h2></div><div class="tbl-wrap"><table><thead><tr><th>일차</th><th>있었던 일</th></tr></thead><tbody>';
+  h+='<section class="sec" id="record"><div class="container"><div><div class="sec-head"><span class="label">기록</span><h2>표본사회 6일의 기록</h2></div><div class="tbl-wrap"><table><thead><tr><th>일차</th><th>기록</th></tr></thead><tbody>';
   f.rec.forEach(function(d){h+='<tr><td class="day">'+esc(d)+'일차</td><td><span class="blank"></span></td></tr>'});
   h+='</tbody></table></div></div></div></section><section class="sec" id="night"><div class="container"><div><div class="sec-head"><span class="label">행적</span><h2>'+(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적')+'</h2></div><div class="tbl-wrap"><table><thead><tr><th>시각</th><th>장소</th><th>한 일</th>'+(f.culprit?'':'<th>보고 들은 것</th>')+'</tr></thead><tbody>';
   for(var r=0;r<4;r++){h+='<tr><td class="day"><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td>'+(f.culprit?'':'<td><span class="blank"></span></td>')+'</tr>'}

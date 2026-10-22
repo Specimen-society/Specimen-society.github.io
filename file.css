@@ -66,14 +66,14 @@
 #secret table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:15px}
 @media (max-width:640px){#secret th,#secret td{padding:10px 8px;font-size:14px}
 #secret th{font-size:11px;letter-spacing:.04em}
-#secret td.day{width:4.6em;white-space:normal}
+#secret td.day{width:5rem}
 }
 #secret th,#secret td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
 #secret th{font-family:var(--mono);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--muted);border-bottom:1.5px solid var(--ink)}
 #secret tr:last-child td{border-bottom:0}
 #secret td.day{font-family:var(--mono);white-space:nowrap;width:6.5em;color:var(--accent);font-variant-numeric:tabular-nums}
-#secret thead th:first-child{width:6.5em}
-@media (max-width:640px){#secret thead th:first-child{width:4.6em}
+#secret thead th:first-child{width:6.5rem}
+@media (max-width:640px){#secret thead th:first-child{width:5rem}
 }
 #secret .blank{display:block;min-height:1.7em;border-bottom:1px dashed var(--line);color:var(--muted);font-size:13px}
 #secret .blank.hint{border-bottom:0}
