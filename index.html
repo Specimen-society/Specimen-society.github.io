@@ -263,13 +263,11 @@ button.slot[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink
 .p-secret:focus-visible{outline:0;text-decoration:underline;text-underline-offset:3px}
 .lock{width:min(420px,calc(100vw - 32px))}
 .lock form{display:grid;gap:12px}
-.lock input{font:inherit;font-family:var(--mono);font-size:18px;letter-spacing:.2em;padding:10px 12px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);width:100%}
+.lock input{ime-mode:disabled;font:inherit;font-family:var(--mono);font-size:18px;letter-spacing:.2em;padding:10px 12px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);width:100%}
 .lock .err{min-height:1.5em;font-size:14px;color:var(--stamp)}
 .lock .go{justify-self:start;background:none;border:1.5px solid var(--ink);padding:9px 18px;cursor:pointer;font-size:14.5px}
 .lock .go:hover{background:var(--ink);color:var(--bg)}
 .lock .go:disabled{opacity:.5;cursor:wait}
-.secret-body{display:grid;gap:16px;max-width:760px}
-.secret-body h2{font-family:var(--display);font-size:clamp(32px,5vw,52px);line-height:1.15}
 .p-body{padding:28px 24px 32px;display:grid;gap:18px}
 .profile .big{font-family:var(--display);font-size:clamp(44px,10vw,64px);line-height:1}
 .profile .q{font-size:clamp(17px,1.6vw,22px);line-height:1.6;border-left:3px solid var(--accent);padding-left:14px}
@@ -446,7 +444,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
         <div class="p-body">
           <form id="lock-form">
             <label class="label" for="lock-pw">접근 제한 · 암호를 입력하세요</label>
-            <input type="password" id="lock-pw" autocomplete="off" required>
+            <input type="password" id="lock-pw" lang="en" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" required>
             <span class="err" id="lock-err" aria-live="polite"></span>
             <button type="submit" class="go" id="lock-go">확인</button>
           </form>
@@ -470,9 +468,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
     </div>
   </section>
 
-  <section class="sec" id="secret" data-page="secret">
+  <section id="secret" data-page="secret">
+    <div id="secret-body"></div>
     <div class="container">
-      <div class="secret-body" id="secret-body"></div>
       <button type="button" class="back back-bottom" data-view="cast">← 참가자로 돌아가기</button>
     </div>
   </section>
@@ -492,7 +490,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   </div>
 </footer>
 
-<script src="secrets.js?v=20261022a"></script>
+<link rel="stylesheet" href="file.css?v=20261022b">
+<script src="secrets.js?v=20261022b"></script>
+<script src="file.js?v=20261022b"></script>
 <script>
 (function(){
   /* mobile menu */
@@ -507,7 +507,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   function showView(v){
     var first=true;view=v;
     pages.forEach(function(sec){var on=sec.dataset.page===v;sec.hidden=!on;sec.classList.remove("page-first");if(on&&first){sec.classList.add("page-first");first=false}});
-    document.body.classList.toggle("hidden-mode",v==="shadow");
+    document.body.classList.toggle("hidden-mode",v==="shadow");document.body.classList.remove("no-stamp");
     document.querySelectorAll(".nav [data-view],.mobile-nav [data-view]").forEach(function(b){var on=b.dataset.view===v;b.classList.toggle("on",on);if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
     mn.hidden=true;mb.setAttribute("aria-expanded","false");
     window.scrollTo(0,0);
@@ -600,6 +600,15 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
     if(typeof lock.showModal==="function"){if(!lock.open)lock.showModal()}else{lock.setAttribute("open","")}
     setHash("#secret-"+lockNo);pw.focus()}
   document.getElementById("p-secret").addEventListener("click",openLock);
+  /* 한글 자판으로 쳐도 같은 자리의 영문 키로 바꿔 넣음 (두벌식) */
+  var KEY={"ㄱ":"r","ㄲ":"R","ㄳ":"rt","ㄴ":"s","ㄵ":"sw","ㄶ":"sg","ㄷ":"e","ㄸ":"E","ㄹ":"f","ㄺ":"fr","ㄻ":"fa","ㄼ":"fq","ㄽ":"ft","ㄾ":"fx","ㄿ":"fv","ㅀ":"fg","ㅁ":"a","ㅂ":"q","ㅃ":"Q","ㅄ":"qt","ㅅ":"t","ㅆ":"T","ㅇ":"d","ㅈ":"w","ㅉ":"W","ㅊ":"c","ㅋ":"z","ㅌ":"x","ㅍ":"v","ㅎ":"g",
+    "ㅏ":"k","ㅐ":"o","ㅑ":"i","ㅒ":"O","ㅓ":"j","ㅔ":"p","ㅕ":"u","ㅖ":"P","ㅗ":"h","ㅘ":"hk","ㅙ":"ho","ㅚ":"hl","ㅛ":"y","ㅜ":"n","ㅝ":"nj","ㅞ":"np","ㅟ":"nl","ㅠ":"b","ㅡ":"m","ㅢ":"ml","ㅣ":"l"};
+  var CHO="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",JUNG="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ",JONG=" ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
+  function toEng(v){return v.replace(/[\uAC00-\uD7A3\u3131-\u3163]/g,function(ch){var c=ch.charCodeAt(0)-0xAC00;
+    if(c<0)return KEY[ch]||ch;
+    var j=c%28;return KEY[CHO[Math.floor(c/588)]]+KEY[JUNG[Math.floor(c%588/28)]]+(j?KEY[JONG[j]]:"")})}
+  function engInput(e){if(e.isComposing)return;var v=toEng(pw.value);if(v!==pw.value){pw.value=v;pw.setSelectionRange(v.length,v.length)}}
+  pw.addEventListener("input",engInput);pw.addEventListener("compositionend",function(){setTimeout(engInput,0,{})});
   function closeLock(){if(lock.open){typeof lock.close==="function"?lock.close():lock.removeAttribute("open")}}
   lock.addEventListener("close",function(){if(!lock.open&&dlg.open)setHash("#specimen-"+String(cur+1).padStart(2,"0"))});
   document.getElementById("lock-close").addEventListener("click",closeLock);
@@ -607,9 +616,11 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   document.getElementById("lock-form").addEventListener("submit",function(e){e.preventDefault();
     if(!window.crypto||!window.crypto.subtle){err.textContent="이 브라우저에서는 열 수 없습니다.";return}
     go.disabled=true;err.textContent="";
-    decrypt(SECRETS[lockNo],pw.value).then(function(html){
-      document.getElementById("secret-body").innerHTML=html;
+    pw.value=toEng(pw.value);
+    decrypt(SECRETS[lockNo],pw.value).then(function(text){
+      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);
       opener=null;closeLock();close();showView("secret");
+      if(f.culprit)document.body.classList.add("hidden-mode","no-stamp");
     },function(){err.textContent="암호가 일치하지 않습니다.";pw.select()}).then(function(){go.disabled=false})});
 
   /* 개별 링크: #specimen-02 = 참가자 카드, #secret-02 = 암호 입력 */

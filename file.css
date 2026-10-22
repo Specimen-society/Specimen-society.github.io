@@ -1,0 +1,104 @@
+/* 참가자 파일(시크릿 페이지) — 각 인물 파일 아티팩트의 스타일을 #secret 안으로 한정 */
+#secret .file-head{padding-block:48px 56px}
+#secret .fh-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:end}
+#secret .fh-grid>*{min-width:0}
+#secret .fh-no{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+#secret .big{font-family:var(--display);font-size:clamp(64px,12vw,136px);line-height:.95;letter-spacing:-.01em;margin-top:12px}
+#secret .verdict{display:inline-block;margin-top:22px;font-weight:700;font-size:clamp(17px,2.2vw,20px);padding:6px 14px;border:1.5px solid var(--ink)}
+#secret .verdict.guilty{font-family:"Black Han Sans",var(--body);font-weight:400;letter-spacing:.02em;color:var(--stamp);border:4px double var(--stamp);transform:rotate(-2deg);font-size:clamp(22px,3vw,30px)}
+#secret .order{margin-top:14px;font-weight:500;max-width:36ch}
+#secret .access{margin-top:18px;font-size:14px;color:var(--muted);border-left:3px solid var(--stamp);padding-left:12px;max-width:44ch}
+#secret .access em{font-style:normal;color:var(--stamp)}
+#secret .label-card{background:var(--paper);border:1.5px solid var(--ink);display:grid}
+#secret .label-card header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1.5px solid var(--ink)}
+#secret .label-card header b{font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.1em}
+#secret .facts{margin:0}
+#secret .facts div{display:grid;grid-template-columns:4.5em 1fr;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:15px}
+#secret .facts dt{color:var(--muted)}
+#secret .facts dd{margin:0;min-width:0}
+#secret .code-box{padding:16px;display:grid;gap:10px}
+#secret .code-rows{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:center}
+#secret .row-label{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
+#secret .code-row{display:flex;gap:8px}
+#secret .slot{font-family:var(--mono);font-size:26px;width:52px;height:56px;display:grid;place-items:center;border:1px solid var(--line);background:var(--bg);line-height:1;position:relative}
+#secret .slot.letter{color:var(--accent);border-color:var(--accent)}
+#secret .slot small{position:absolute;bottom:-18px;left:0;right:0;font-family:var(--body);font-size:11px;color:var(--muted);text-align:center;letter-spacing:0}
+#secret .num-row{margin-top:14px}
+#secret .num-row .slot{color:var(--muted)}
+@media (max-width:820px){#secret .fh-grid{grid-template-columns:1fr;gap:32px}
+}
+@media (max-width:400px){#secret .slot{width:44px;height:50px;font-size:22px}
+}
+#secret .sec{padding-block:64px;border-top:1px solid var(--line)}
+#secret .sec-head{display:grid;gap:8px;margin-bottom:28px;max-width:640px}
+#secret .sec-head h2{font-family:var(--display);font-size:clamp(28px,4vw,40px);line-height:1.2}
+#secret .sec-head p{color:var(--muted)}
+#secret .qs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+#secret .qcard{background:var(--paper);border:1px solid var(--line);padding:20px;display:grid;gap:12px;align-content:start;min-width:0}
+#secret .qcard .qq{font-weight:500}
+#secret .qcard .qa{font-size:17px;line-height:1.65;border-left:3px solid var(--accent);padding-left:14px}
+@media (max-width:900px){#secret .qs{grid-template-columns:1fr}
+}
+#secret .story{display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;align-items:start}
+#secret .toc{position:sticky;top:calc(var(--head-h) + env(safe-area-inset-top,0px) + 24px);display:grid;gap:2px;border-left:1px solid var(--line)}
+#secret .toc a{display:grid;gap:0;text-decoration:none;padding:8px 0 8px 16px;margin-left:-1px;border-left:2px solid transparent;color:var(--muted);font-size:14.5px}
+#secret .toc a span{font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+#secret .toc a:hover,#secret .toc a.on{color:var(--ink);border-left-color:var(--accent)}
+#secret .chapter{max-width:38em;scroll-margin-top:calc(var(--head-h) + 20px)}
+#secret .chapter+.chapter{margin-top:64px;padding-top:40px;border-top:1px dashed var(--line)}
+#secret .chapter h3{font-family:var(--display);font-size:clamp(24px,3vw,30px);display:flex;gap:14px;align-items:baseline;margin-bottom:24px}
+#secret .chapter h3 span{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em}
+#secret .prose{display:grid;gap:16px;font-size:16.5px;line-height:1.85}
+#secret .prose em{font-style:normal;color:var(--accent)}
+#secret .prose strong{font-weight:700}
+#secret .prose s{color:var(--stamp);text-decoration-thickness:1.5px}
+#secret .prose .voice{color:var(--accent);padding-left:14px;border-left:2px solid var(--accent)}
+#secret .prose .voice em{color:inherit}
+#secret .prose .loud{font-weight:700;font-size:1.06em}
+#secret .prose .break{text-align:center;color:var(--muted);letter-spacing:.6em;font-family:var(--mono)}
+#secret .prose .ln{white-space:pre-line}
+@media (max-width:820px){#secret .story{grid-template-columns:1fr;gap:20px}
+#secret .toc{position:static;display:flex;flex-wrap:wrap;gap:6px;border-left:0}
+#secret .toc a{border:1px solid var(--line);padding:6px 12px;margin:0;background:var(--paper)}
+#secret .toc a:hover,#secret .toc a.on{border-color:var(--accent)}
+}
+#secret .tbl-wrap{overflow-x:auto;border:1.5px solid var(--ink);background:var(--paper)}
+#secret table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+#secret th,#secret td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+#secret th{font-family:var(--mono);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--muted);border-bottom:1.5px solid var(--ink)}
+#secret tr:last-child td{border-bottom:0}
+#secret td.day{font-family:var(--mono);white-space:nowrap;width:7em;color:var(--accent);font-variant-numeric:tabular-nums}
+#secret .blank{display:block;min-height:1.7em;border-bottom:1px dashed var(--line);color:var(--muted);font-size:13px}
+#secret .blank.hint{border-bottom:0}
+#secret .two{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+#secret .two>*{min-width:0}
+@media (max-width:900px){#secret .two{grid-template-columns:1fr}
+}
+#secret .note{margin-bottom:14px;color:var(--stamp);font-weight:500}
+#secret .ev{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+#secret .ev-slot{border:1.5px dashed var(--line);padding:18px;display:grid;gap:6px;min-height:150px;align-content:space-between;background:color-mix(in srgb,var(--paper) 50%,transparent)}
+#secret .ev-slot b{font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.1em;color:var(--muted)}
+#secret .ev-slot p{color:var(--muted);font-size:14px}
+@media (max-width:640px){#secret .ev{grid-template-columns:1fr}
+}
+#secret .rels{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+#secret .rel{background:var(--paper);border:1px solid var(--line);padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+#secret .rel header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+#secret .rel .nk{font-family:var(--display);font-size:26px;line-height:1.2}
+#secret .rel .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted)}
+#secret .rel.victim{border-color:var(--ink)}
+#secret .rel.victim .tag{color:var(--stamp)}
+#secret .rel ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:15px}
+#secret .rel li{padding-left:12px;position:relative}
+#secret .rel li::before{content:"";position:absolute;left:0;top:.75em;width:4px;height:4px;background:var(--muted)}
+#secret .rel s{color:var(--stamp);text-decoration-thickness:1.5px}
+#secret .rel strong{font-weight:700}
+#secret .p-nav{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);background:var(--paper)}
+#secret .p-nav button{background:none;border:0;padding:18px;cursor:pointer;text-align:left;display:grid;gap:2px}
+#secret .p-nav button+button{border-left:1px solid var(--line);text-align:right}
+#secret .p-nav button:hover{background:var(--tint)}
+#secret .p-nav b{font-family:var(--display);font-weight:400;font-size:22px}
+/* 사이트 공통 규칙과 겹치는 부분 정리 */
+#secret .facts{background:none;border:0;align-self:auto}
+#secret .facts div:last-child{border-bottom:1px solid var(--line)}
+body.no-stamp .stamp{display:none!important}
