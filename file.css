@@ -109,3 +109,7 @@
 #secret .facts{background:none;border:0;align-self:auto}
 #secret .facts div:last-child{border-bottom:1px solid var(--line)}
 body.no-stamp .stamp{display:none!important}
+/* 사이트 서체 규칙(세리프 1 + 산세리프 1, 굵기로 구분)에 맞춤 */
+#secret .big{font-weight:900}
+#secret .verdict.guilty{font-family:var(--display);font-weight:900}
+#secret .rel .nk{font-weight:600}
