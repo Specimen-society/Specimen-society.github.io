@@ -77,7 +77,7 @@ section[data-page]{animation:pagein .35s ease}
 .hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end}
 .hero h1{font-family:var(--display);font-weight:900;font-size:clamp(60px,11vw,128px);line-height:.95;letter-spacing:-.01em}
 .hero .sub{font-family:var(--body);font-weight:500;font-size:clamp(18px,2.6vw,26px);letter-spacing:.18em;color:var(--accent);margin-top:14px}
-.tagline{font-size:clamp(17px,2.2vw,20px);max-width:36ch;margin-top:24px}
+.tagline{font-size:clamp(17px,2.2vw,20px);margin-top:24px}
 .tagline-strong{margin-top:14px;font-weight:700}
 .cta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px;max-width:420px}
 .btn{display:flex;align-items:center;justify-content:center;padding:12px 8px;background:none;cursor:pointer;text-decoration:none;font-weight:500;font-size:15px;border:1.5px solid var(--ink)}
@@ -96,7 +96,7 @@ section[data-page]{animation:pagein .35s ease}
 
 /* sections */
 .sec{padding-block:72px;border-top:1px solid var(--line);scroll-margin-top:var(--head-h)}
-.sec-head{display:grid;gap:8px;margin-bottom:32px;max-width:640px}
+.sec-head{display:grid;gap:8px;margin-bottom:32px}
 .sec-head h2{font-family:var(--display);font-size:clamp(28px,4vw,40px);line-height:1.2}
 .sec-head p{color:var(--muted)}
 
@@ -277,10 +277,10 @@ button.slot[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink
 .p-nav button:hover{color:var(--ink);background:var(--tint)}
 
 /* shadow */
-.shadow{position:relative;background:var(--paper);border:1.5px solid var(--ink);padding:40px 36px 36px;overflow:hidden}
+.shadow{position:relative;z-index:1;background:var(--paper);border:1.5px solid var(--ink);padding:40px 36px 36px;overflow:hidden}
 .shadow h2{font-family:var(--display);font-size:clamp(28px,4vw,40px)}
-.shadow p{max-width:60ch;margin-top:12px}
-.stamp{--blood:#7A0B0E;display:none;position:fixed;z-index:30;top:50%;left:50%;transform:translate(-50%,-50%) rotate(11deg);font-family:var(--display);font-weight:900;font-size:min(6.2vw,14vh);letter-spacing:.02em;white-space:nowrap;color:var(--blood);border:max(5px,.08em) double var(--blood);padding:.06em .28em .12em;line-height:1.15;opacity:.88;mix-blend-mode:multiply;pointer-events:none;text-shadow:0 0 1px var(--blood)}
+.shadow p{margin-top:12px}
+.stamp{--blood:#7A0B0E;display:none;position:fixed;z-index:0;top:calc(50% - 20px);left:50%;transform:translate(-50%,-50%) rotate(11deg);font-family:var(--display);font-weight:900;font-size:min(6.2vw,14vh);letter-spacing:.02em;white-space:nowrap;color:var(--blood);border:max(5px,.08em) double var(--blood);padding:.06em .28em .12em;line-height:1.15;opacity:.88;mix-blend-mode:multiply;pointer-events:none;text-shadow:0 0 1px var(--blood)}
 body.hidden-mode .stamp{display:block}
 body.hidden-mode .stamp{--blood:#B5161C;mix-blend-mode:normal}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body.hidden-mode .stamp{--blood:#7A0B0E;mix-blend-mode:multiply}}
@@ -483,16 +483,16 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
       <a class="brand" href="#top" data-view="home" aria-label="표본사회: 인원 선별 구역"><b>표본사회:</b><span>인원 선별 구역</span></a>
       <span>열두 개의 표본, 하나의 작은 사회.</span>
     </div>
-    <div style="display:grid;gap:0;max-width:40ch">
+    <div style="display:grid;gap:0">
       <span>본 프로그램과 등장 인물, 정당, 단체는 모두 가상입니다.</span>
       <span>청소년 시청 불가 · 관찰 기간 12일</span>
     </div>
   </div>
 </footer>
 
-<link rel="stylesheet" href="file.css?v=20261022g">
-<script src="secrets.js?v=20261022g"></script>
-<script src="file.js?v=20261022g"></script>
+<link rel="stylesheet" href="file.css?v=20261022h">
+<script src="secrets.js?v=20261022h"></script>
+<script src="file.js?v=20261022h"></script>
 <script>
 (function(){
   /* mobile menu */
@@ -660,6 +660,7 @@ var SKIP={SCRIPT:1,STYLE:1,SVG:1,TEXTAREA:1,INPUT:1,TITLE:1};
 function wrap(root){
   var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
     if(!/[가-힣]/.test(n.nodeValue))return NodeFilter.FILTER_REJECT;
+    if(/flex|grid/.test(getComputedStyle(n.parentNode).display))return NodeFilter.FILTER_REJECT;
     for(var e=n.parentNode;e&&e!==document.body;e=e.parentNode){
       if(SKIP[e.nodeName.toUpperCase()]||(e.classList&&e.classList.contains('wd'))||e.id==='secret-body')return NodeFilter.FILTER_REJECT;
     }

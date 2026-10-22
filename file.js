@@ -25,7 +25,7 @@ function render(f){
   h+='<h1 class="big">'+f.nick+'</h1>';
   h+=f.culprit?'<p class="verdict guilty">당신은 범인입니다.</p><p class="order">범인은 거짓말이 가능하며, 다른 참여자를 이용하여 완전 범죄를 완성하세요.</p>'
               :'<p class="verdict">당신은 범인이 아닙니다.</p>';
-  h+='<p class="access">열람 권한: '+f.nick+' 본인. <em>타인에게 유출 시, 즉시 퇴소 처리됩니다.</em></p>';
+  h+='<p class="access">열람 권한: '+f.nick+' 본인.<br><em>타인에게 유출 시, 즉시 퇴소 처리됩니다.</em></p>';
   h+='</div><div class="label-card" aria-label="신상 정보"><header><b>SPECIMEN '+pad(f.no)+'</b><span class="label">'+(f.culprit?'범인 전용':'개인 파일')+'</span></header><dl class="facts">';
   ["이름","나이","성별","직업"].forEach(function(k){h+='<div><dt>'+k+'</dt><dd>'+esc(f.info[k]||"")+'</dd></div>'});
   h+='</dl><div class="code-box"><span class="label">사상 코드</span><div class="code-rows"><span class="row-label">코드</span><div class="code-row">';
