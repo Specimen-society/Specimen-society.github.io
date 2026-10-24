@@ -88,6 +88,21 @@
 #secret .ev-slot p{color:var(--muted);font-size:14px}
 @media (max-width:640px){#secret .ev{grid-template-columns:1fr}
 }
+#secret .cl{display:block;white-space:pre-line}
+#secret .cl+.cl{margin-top:6px}
+#secret td strong{font-weight:700}
+#secret td s{color:var(--stamp);text-decoration-thickness:1.5px}
+#secret .tbl-scroll{overflow-x:auto}
+#secret .night-tbl.four{min-width:640px}
+#secret .night-tbl.four th:nth-child(2){width:9rem}
+#secret .night-tbl:not(.four) th:nth-child(2){width:11rem}
+#secret .ev-tbl thead th:first-child{width:11rem}
+#secret td.ev-k{font-family:var(--mono);font-size:13px;color:var(--accent)}
+@media (max-width:640px){#secret .ev-tbl thead th:first-child{width:7rem}
+#secret .night-tbl.four th:nth-child(2){width:6rem}
+#secret .night-tbl:not(.four){min-width:520px}
+}
+#secret .sec-head>p{max-width:60ch}
 #secret .rels{display:grid;grid-template-columns:1fr;gap:12px}
 #secret .rel{background:var(--paper);border:1px solid var(--line);padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
 #secret .rel header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}

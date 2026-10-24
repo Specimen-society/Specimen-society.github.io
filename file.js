@@ -17,6 +17,7 @@ function para(p){
   if(t.indexOf("\n")>-1)cls.push("ln");
   return '<p'+(cls.length?' class="'+cls.join(" ")+'"':'')+'>'+md(t)+'</p>'}
 function pad(n){return String(n).padStart(2,"0")}
+function lines(a){return a.map(function(x){return '<span class="cl">'+md(x)+'</span>'}).join("")}
 function render(f){
   var L=f.code[0].split(""),N=f.code[1].split("");
   var h='';
@@ -46,14 +47,19 @@ function render(f){
   h+='</div></div></div></section>';
 
   h+='<section class="sec" id="record"><div class="container"><div><div class="sec-head"><span class="label">기록</span><h2>표본사회 6일의 기록</h2></div><div class="tbl-wrap"><table><thead><tr><th>일차</th><th>기록</th></tr></thead><tbody>';
-  f.rec.forEach(function(d){h+='<tr><td class="day">'+esc(d)+'일차</td><td><span class="blank"></span></td></tr>'});
-  h+='</tbody></table></div></div></div></section><section class="sec" id="night"><div class="container"><div><div class="sec-head"><span class="label">행적</span><h2>'+(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적')+'</h2></div><div class="tbl-wrap"><table><thead><tr><th>시각</th><th>장소</th><th>한 일</th>'+(f.culprit?'':'<th>목격</th>')+'</tr></thead><tbody>';
-  for(var r=0;r<4;r++){h+='<tr><td class="day"><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td>'+(f.culprit?'':'<td><span class="blank"></span></td>')+'</tr>'}
+  f.rec.forEach(function(d){var day=typeof d==="string"?d:d[0];h+='<tr><td class="day">'+esc(day)+'일차</td><td>'+(typeof d==="string"?'<span class="blank"></span>':lines(d[1]))+'</td></tr>'});
+  h+='</tbody></table></div></div></div></section><section class="sec" id="night"><div class="container"><div><div class="sec-head"><span class="label">행적</span><h2>'+esc(f.nightTitle||(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적'))+'</h2>'+(f.nightNote?'<p>'+md(f.nightNote)+'</p>':'')+'</div><div class="tbl-wrap tbl-scroll"><table class="night-tbl'+(f.night&&f.night.head.length>3?' four':'')+'"><thead><tr>';
+  if(f.night){f.night.head.forEach(function(x){h+='<th>'+esc(x)+'</th>'});h+='</tr></thead><tbody>';
+    f.night.rows.forEach(function(r){h+='<tr>'+r.map(function(c,k){return '<td'+(k?'':' class="day"')+'>'+lines(c)+'</td>'}).join("")+'</tr>'})}
+  else{h+='<th>시각</th><th>장소</th><th>한 일</th>'+(f.culprit?'':'<th>목격</th>')+'</tr></thead><tbody>';
+    for(var r=0;r<4;r++){h+='<tr><td class="day"><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td>'+(f.culprit?'':'<td><span class="blank"></span></td>')+'</tr>'}}
   h+='</tbody></table></div></div></div></section>';
 
-  h+='<section class="sec" id="evidence"><div class="container"><div class="sec-head"><span class="label">증거</span><h2>증거 목록</h2></div><div class="ev">';
-  for(var e=1;e<=3;e++)h+='<div class="ev-slot"><b>EVIDENCE '+pad(e)+'</b><p>증거 카드 배정 전</p></div>';
-  h+='</div></div></section>';
+  h+='<section class="sec" id="evidence"><div class="container"><div class="sec-head"><span class="label">증거</span><h2>증거 목록</h2>'+(f.evNote?'<p>'+md(f.evNote)+'</p>':'')+'</div>';
+  if(f.ev){h+='<div class="tbl-wrap"><table class="ev-tbl"><thead><tr><th>구분</th><th>증거</th></tr></thead><tbody>';
+    f.ev.forEach(function(e){h+='<tr><td class="ev-k">'+esc(e[0])+'</td><td>'+lines(e[1])+'</td></tr>'});h+='</tbody></table></div>'}
+  else{h+='<div class="ev">';for(var e=1;e<=3;e++)h+='<div class="ev-slot"><b>EVIDENCE '+pad(e)+'</b><p>증거 카드 배정 전</p></div>';h+='</div>'}
+  h+='</div></section>';
 
   h+='<section class="sec" id="relations"><div class="container"><div class="sec-head"><span class="label">인물 관계</span><h2>'+f.nick+(((f.nick.charCodeAt(f.nick.length-1)-0xAC00)%28)?'이':'가')+' 본 사람들</h2></div><div class="rels">';
   f.rels.forEach(function(r){var v=r[0]==="제우스",no=ALL.indexOf(r[0])+1;
