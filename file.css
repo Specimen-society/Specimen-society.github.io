@@ -128,3 +128,5 @@ body.no-stamp .stamp{display:none!important}
 #secret .big{font-weight:900}
 #secret .verdict.guilty{font-family:var(--display);font-weight:900}
 #secret .rel .nk{font-weight:600}
+#secret .pub-tbl{min-width:760px}
+#secret .pub-tbl thead th:first-child{width:4.5rem}
