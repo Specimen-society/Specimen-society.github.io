@@ -17,7 +17,7 @@ var Q=[
 var OPT=["전혀 아니다","아니다","보통이다","그렇다","매우 그렇다"];
 window.SS_Q=Q;window.SS_OPT=OPT;
 var AX=[{R:"전통",P:"변화"},{E:"경쟁",W:"분배"},{U:"집단",I:"개인"},{O:"인정",C:"배제"}];
-var MSG={unknown:"참가자 명단에 없는 밴드 닉네임입니다. 밴드에서 쓰는 닉네임을 그대로 입력하세요.",done:"이미 검사를 마친 닉네임입니다. 검사는 한 번만 받을 수 있습니다.",full:"모든 표본의 배정이 끝났습니다.",closed:"지금은 검사를 받을 수 없습니다.",bad:"답변을 다시 확인하세요.",net:"연결에 실패했습니다. 잠시 후 다시 시도하세요."};
+var MSG={unknown:"참가자 명단에 없는 이름입니다. 이름을 그대로 입력하세요.",done:"이미 검사를 마친 이름입니다. 검사는 한 번만 받을 수 있습니다.",full:"모든 표본의 배정이 끝났습니다.",closed:"지금은 검사를 받을 수 없습니다.",bad:"답변을 다시 확인하세요.",net:"연결에 실패했습니다. 잠시 후 다시 시도하세요."};
 var SAVE="ss_result";
 var root=document.getElementById("exam"),name="",ans=[],at=0;
 if(!root)return;
@@ -32,10 +32,10 @@ function intro(){
   var saved=load();
   root.innerHTML='<div class="exam-card"><header><b>SPECIMEN TEST</b><span class="label">입소 전 검사</span></header><div class="exam-body">'+
     '<ol class="exam-rules"><li><b>8</b><span>문항마다 생각과 가장 가까운 답을 고릅니다. 정답은 없습니다.</span></li>'+
-    '<li><b>1회</b><span>검사는 닉네임당 한 번만 받을 수 있고, 제출한 답은 고칠 수 없습니다.</span></li>'+
+    '<li><b>1회</b><span>검사는 이름당 한 번만 받을 수 있고, 제출한 답은 고칠 수 없습니다.</span></li>'+
     '<li><b>선착순</b><span>결과 코드와 가장 가까운 표본에 배정됩니다. 먼저 배정된 표본은 다음 사람에게 가지 않습니다.</span></li></ol>'+
-    '<form class="exam-form" id="exam-form"><label class="label" for="exam-name">밴드 닉네임</label>'+
-    '<div class="exam-row"><input id="exam-name" autocomplete="off" required maxlength="30" placeholder="밴드 닉네임"><button type="submit" class="go" id="exam-go">검사 시작</button></div>'+
+    '<form class="exam-form" id="exam-form"><label class="label" for="exam-name">이름</label>'+
+    '<div class="exam-row"><input id="exam-name" autocomplete="off" required maxlength="30" placeholder="이름"><button type="submit" class="go" id="exam-go">검사 시작</button></div>'+
     '<span class="err" id="exam-err" aria-live="polite"></span></form>'+
     (saved?'<button type="button" class="exam-link" id="exam-saved">이 기기에서 받은 결과 다시 보기 · '+esc(saved.name)+'</button>':'')+
     '</div></div>';
