@@ -309,7 +309,7 @@ body.hidden-mode .stamp{animation:stampdrop .5s cubic-bezier(.2,.9,.3,1.2) .15s 
 .exam-link{justify-self:start;background:none;border:0;padding:4px 0;cursor:pointer;font-size:14px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .exam-link:hover:not(:disabled){color:var(--ink)}
 .exam-link:disabled{opacity:.35;cursor:default;text-decoration:none}
-.exam-bar{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;padding:8px 16px;border-bottom:1px solid var(--line)}
+.exam-bar{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;padding:8px 16px;border-bottom:1px solid var(--line)}
 .exam-bar span{height:6px;background:var(--line)}
 .exam-bar .done{background:var(--accent)}
 .exam-bar .now{background:var(--ink)}
@@ -321,7 +321,7 @@ body.hidden-mode .stamp{animation:stampdrop .5s cubic-bezier(.2,.9,.3,1.2) .15s 
 .opt[aria-checked="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .opt[aria-checked="true"] b{color:inherit}
 .exam-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-@media (max-width:560px){.scale{grid-template-columns:1fr}.opt{grid-template-columns:2em 1fr;justify-items:start;padding:12px 14px;text-align:left}.exam-nav .label{display:none}}
+@media (max-width:560px){.exam-body{gap:14px}.exam-rules li{grid-template-columns:3.6em 1fr}.exam-q{font-size:20px;min-height:0}.scale{grid-template-columns:1fr;gap:6px}.opt{grid-template-columns:2em 1fr;justify-items:start;align-items:center;padding:10px 14px;text-align:left}.opt b{font-size:18px}.exam-nav .label{display:none}}
 .exam .code-box{display:grid;gap:10px;padding-bottom:20px}
 .exam .slot{position:relative;transition:color .2s,border-color .2s}
 .exam .slot.letter.on{color:var(--accent);border-color:var(--accent)}
@@ -573,7 +573,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
 <link rel="stylesheet" href="file.css?v=20261024b">
 <script src="secrets.js?v=20261024b"></script>
 <script src="file.js?v=20261024b"></script>
-<script src="test.js?v=20261028"></script>
+<script src="test.js?v=20261029"></script>
 <script>
 (function(){
   /* mobile menu */

@@ -117,7 +117,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mute
 
   <div class="container" id="board" hidden>
     <section class="sec">
-      <div class="sec-head"><span class="label">입소 검사</span><h2>검사 현황</h2><p>검사는 명단에 있는 이름만, 이름당 한 번 받을 수 있습니다. 끝낸 순서대로 남은 표본 중 가장 가까운 표본이 배정됩니다.</p></div>
+      <div class="sec-head"><span class="label">입소 검사</span><h2>검사 현황</h2><p>검사는 명단에 있는 밴드 닉네임만, 닉네임당 한 번 받을 수 있습니다. 끝낸 순서대로 남은 표본 중 가장 가까운 표본이 배정됩니다.</p></div>
       <div class="card">
         <div class="stats">
           <div><span class="label">명단</span><strong id="st-people">0</strong></div>
@@ -138,7 +138,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mute
     <section class="sec">
       <div class="sec-head"><span class="label">검사 결과</span><h2>결과 기록</h2><p>행을 눌러 축별 점수와 답변을 볼 수 있습니다. 이미지는 PNG, 전체 기록은 CSV로 저장됩니다.</p></div>
       <div class="card">
-        <div class="tbl"><table><thead><tr><th>순서</th><th>이름</th><th>코드</th><th>강도</th><th>배정</th><th>제출 시각</th><th>관리</th></tr></thead><tbody id="res-body"></tbody></table></div>
+        <div class="tbl"><table><thead><tr><th>순서</th><th>밴드 닉네임</th><th>코드</th><th>강도</th><th>배정</th><th>제출 시각</th><th>관리</th></tr></thead><tbody id="res-body"></tbody></table></div>
         <div class="toolbar"><button type="button" class="btn sm" id="all-img">전체 이미지 저장</button><button type="button" class="btn sm" id="all-csv">CSV 저장</button></div>
       </div>
     </section>
@@ -149,9 +149,9 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mute
     </section>
 
     <section class="sec">
-      <div class="sec-head"><span class="label">명단</span><h2>참가자 명단</h2><p>한 줄에 한 명씩 입력하고 저장합니다. 이름 옆 ×를 누르면 명단에서 지웁니다.<br>검사를 마친 이름은 × 또는 전체 삭제로만 지워지며, 이때 검사 기록도 함께 지워지고 배정된 표본이 다시 빕니다.</p></div>
+      <div class="sec-head"><span class="label">명단</span><h2>참가자 명단</h2><p>한 줄에 한 명씩 입력하고 저장합니다. 닉네임 옆 ×를 누르면 명단에서 지웁니다.<br>검사를 마친 닉네임은 × 또는 전체 삭제로만 지워지며, 이때 검사 기록도 함께 지워지고 배정된 표본이 다시 빕니다.</p></div>
       <div class="card">
-        <label class="label" for="people" style="display:block;padding:12px 16px 0">이름 목록</label>
+        <label class="label" for="people" style="display:block;padding:12px 16px 0">밴드 닉네임 목록</label>
         <textarea id="people" spellcheck="false"></textarea>
         <div class="chips" id="chips"></div>
         <div class="toolbar"><button type="button" class="btn sm" id="people-save">명단 저장</button><button type="button" class="btn sm warn" id="people-clear">명단 전체 삭제</button><span class="ok" id="people-ok" aria-live="polite"></span></div>
@@ -207,7 +207,7 @@ $("open-chk").addEventListener("change",function(){act("open",{open:this.checked
 
 function charOf(no){return (data.chars||[]).filter(function(c){return c.no===no})[0]||{}}
 function signed(c){return c.code.split("").map(function(l,k){return (+c.strength[k])*(l===LT[k]?1:-1)})}
-function distances(r){var v=r.sums.map(function(x){return x/4});
+function distances(r){var v=r.sums.map(function(x){return x/2});
   return data.chars.map(function(c){var s=signed(c),d=0;for(var k=0;k<4;k++)d+=Math.abs(v[k]-s[k]);return {c:c,d:d}}).sort(function(a,b){return a.d-b.d})}
 
 function draw(r){
@@ -227,7 +227,7 @@ function draw(r){
     var i=tr.dataset.i,d=tb.querySelector('tr[data-d="'+i+'"]');d.hidden=!d.hidden;openRow=d.hidden?null:res[i].name})});
   tb.querySelectorAll("[data-img]").forEach(function(b){b.addEventListener("click",function(){saveImg(res[+b.dataset.img])})});
   tb.querySelectorAll("[data-del]").forEach(function(b){b.addEventListener("click",function(){var x=res[+b.dataset.del];
-    if(window.confirm(x.name+"님의 검사 기록을 지울까요?\n배정된 표본("+(charOf(x.char_no).nick||"-")+")이 다시 비고, 이 이름으로 검사를 다시 받을 수 있습니다."))act("reset",{name:x.name},b)})});
+    if(window.confirm(x.name+"님의 검사 기록을 지울까요?\n배정된 표본("+(charOf(x.char_no).nick||"-")+")이 다시 비고, 이 닉네임으로 검사를 다시 받을 수 있습니다."))act("reset",{name:x.name},b)})});
   /* 배정 */
   $("char-body").innerHTML=chars.map(function(c){var who=res.filter(function(x){return x.char_no===c.no})[0];
     return '<tr><td class="mono muted">'+pad(c.no)+'</td><td class="nk">'+esc(c.nick)+'</td><td class="mono acc">'+esc(c.code)+'</td><td class="mono">'+esc(c.strength)+'</td>'+
@@ -242,12 +242,12 @@ function draw(r){
 }
 function detail(x){
   var bars=x.sums.map(function(s,k){var lt=LT[k],rt=RT[k],on=x.code[k];
-    return '<div class="axis"><span class="'+(on===lt?'on':'')+'">'+lt+'</span><div class="bar" title="'+AXN[k]+' '+s+'"><i style="left:'+(50-s/12*50)+'%"></i></div><span class="r '+(on===rt?'on':'')+'">'+rt+'</span></div>'}).join("");
+    return '<div class="axis"><span class="'+(on===lt?'on':'')+'">'+lt+'</span><div class="bar" title="'+AXN[k]+' '+s+'"><i style="left:'+(50-s/6*50)+'%"></i></div><span class="r '+(on===rt?'on':'')+'">'+rt+'</span></div>'}).join("");
   var ds=distances(x).map(function(o){return '<span><b>'+esc(o.c.nick)+'</b> '+o.c.code+' '+o.c.strength+' · 차이 '+o.d.toFixed(2)+(o.c.no===x.char_no?' · 배정':'')+'</span>'}).join("");
   var an=x.answers.map(function(a,i){return '<li><span>'+esc(Q[i]||"")+'</span><span>'+a+' '+esc(OPT[a-1]||"")+'</span></li>'}).join("");
   return '<div class="detail-grid"><div><span class="label">축별 점수 (왼쪽 앞 글자 · 오른쪽 뒤 글자)</span><div class="axes" style="margin-top:12px">'+bars+'</div>'+
     '<p class="label" style="margin-top:22px">표본별 차이 (작을수록 가까움)</p><div class="dist">'+ds+'</div></div>'+
-    '<div><span class="label">답변 24문항</span><ol class="answers" style="margin-top:8px">'+an+'</ol></div></div>';
+    '<div><span class="label">답변 8문항</span><ol class="answers" style="margin-top:8px">'+an+'</ol></div></div>';
 }
 $("chips").addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(!b||!data)return;
   var n=data.people[+b.dataset.rm],x=(data.results||[]).filter(function(r){return r.name===n})[0];
@@ -261,7 +261,7 @@ $("people-save").addEventListener("click",function(){
 
 /* CSV */
 $("all-csv").addEventListener("click",function(){if(!data)return;
-  var head=["순서","이름","코드","강도","배정 표본","배정 캐릭터","제출 시각","1축","2축","3축","4축"].concat(Q.map(function(_,i){return "Q"+pad(i+1)}));
+  var head=["순서","밴드 닉네임","코드","강도","배정 표본","배정 캐릭터","제출 시각","1축","2축","3축","4축"].concat(Q.map(function(_,i){return "Q"+pad(i+1)}));
   var rows=(data.results||[]).map(function(x,i){var c=charOf(x.char_no);
     return [i+1,x.name,x.code,"'"+x.strength,c.no?pad(c.no):"",c.nick||"",new Date(x.at).toLocaleString("ko-KR")].concat(x.sums,x.answers)});
   var csv="﻿"+[head].concat(rows).map(function(r){return r.map(function(v){v=String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(",")}).join("\r\n");
@@ -304,7 +304,7 @@ function render(x){
     g.font='700 22px '+SANS;g.fillStyle=x.code[k]===LT[k]?C.accent:C.muted;g.textAlign="right";g.fillText(LT[k],bx-16,by+8);
     g.fillStyle=x.code[k]===RT[k]?C.accent:C.muted;g.textAlign="left";g.fillText(RT[k],bx+bw+16,by+8);
     g.fillStyle=C.line;g.fillRect(bx,by-6,bw,12);g.fillStyle=C.ink;g.fillRect(bx+bw/2-1,by-14,2,28);
-    var mx=bx+bw*(0.5-x.sums[k]/24);g.fillStyle=C.accent;g.fillRect(mx-5,by-16,10,32)}
+    var mx=bx+bw*(0.5-x.sums[k]/12);g.fillStyle=C.accent;g.fillRect(mx-5,by-16,10,32)}
   /* 배정 */
   y+=4*58+20;
   g.fillStyle=C.ink;g.fillRect(P,y,W-2*P,3);
