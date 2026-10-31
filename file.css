@@ -128,5 +128,5 @@ body.no-stamp .stamp{display:none!important}
 #secret .big{font-weight:900}
 #secret .verdict.guilty{font-family:var(--display);font-weight:900}
 #secret .rel .nk{font-weight:600}
-#secret .pub-tbl{min-width:760px}
+@media (max-width:900px){#secret .pub-tbl thead{display:none}#secret .pub-tbl,#secret .pub-tbl tbody,#secret .pub-tbl tr{display:block}#secret .pub-tbl tr{padding:8px 0;border-bottom:1.5px solid var(--ink)}#secret .pub-tbl tr:last-child{border-bottom:0}#secret .pub-tbl td{display:grid;grid-template-columns:7em 1fr;gap:10px;border:0;padding:4px 12px;width:auto}#secret .pub-tbl td::before{content:attr(data-l);font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:3px}#secret .pub-tbl td.day{display:block;font-size:15px;padding-bottom:6px}#secret .pub-tbl td.day::before{content:none}}
 #secret .pub-tbl thead th:first-child{width:4.5rem}
