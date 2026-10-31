@@ -570,10 +570,10 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
   </div>
 </footer>
 
-<link rel="stylesheet" href="file.css?v=20261103">
-<script src="secrets.js?v=20261103"></script>
-<script src="file.js?v=20261103"></script>
-<script src="test.js?v=20261103"></script>
+<link rel="stylesheet" href="file.css?v=20261104">
+<script src="secrets.js?v=20261104"></script>
+<script src="file.js?v=20261104"></script>
+<script src="test.js?v=20261104"></script>
 <script>
 (function(){
   /* mobile menu */
@@ -728,6 +728,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
     return true}
   window.addEventListener("hashchange",function(){if(!route()){var v=location.hash.slice(1);if(["rules","cast","shadow","test"].indexOf(v)>-1)showView(v)}});
   route("#"+start);
+  /* 제작진 페이지에서 캐릭터 이름을 누르면 암호 입력 없이 바로 파일 열기 */
+  try{var so=JSON.parse(localStorage.getItem("ss_open")||"null");localStorage.removeItem("ss_open");
+    if(so&&Date.now()-so.t<30000&&so.pw)window.ssOpenFile(so.no,so.pw).then(null,function(){})}catch(e){}
 })();
 </script>
 <script>

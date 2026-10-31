@@ -67,6 +67,8 @@ tr:last-child td{border-bottom:0}
 .mono{font-family:var(--mono);letter-spacing:.12em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .acc{color:var(--accent)}
 .nk{font-family:var(--display);font-weight:600;font-size:20px;white-space:nowrap}
+.nk button{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.nk button:hover{color:var(--accent)}
 .muted{color:var(--muted)}
 .pw-row{display:flex;gap:6px;align-items:center}
 .pw-row input{font-family:var(--mono);letter-spacing:.08em;width:12em;min-width:0;padding:5px 8px;border:1px solid var(--line);background:var(--bg)}
@@ -229,9 +231,12 @@ function draw(r){
     if(window.confirm(x.name+"님의 검사 기록을 지울까요?\n배정된 표본("+(charOf(x.char_no).nick||"-")+")이 다시 비고, 이 이름으로 검사를 다시 받을 수 있습니다."))act("reset",{name:x.name},b)})});
   /* 배정 */
   $("char-body").innerHTML=chars.map(function(c){var who=res.filter(function(x){return x.char_no===c.no})[0];
-    return '<tr><td class="mono muted">'+pad(c.no)+'</td><td class="nk">'+esc(c.nick)+'</td><td class="mono acc">'+esc(c.code)+'</td><td class="mono">'+esc(c.strength)+'</td>'+
+    return '<tr><td class="mono muted">'+pad(c.no)+'</td><td class="nk"><button type="button" data-open="'+c.no+'" title="암호 없이 캐릭터 파일 열기">'+esc(c.nick)+'</button></td><td class="mono acc">'+esc(c.code)+'</td><td class="mono">'+esc(c.strength)+'</td>'+
       '<td><div class="pw-row"><input type="text" data-no="'+c.no+'" value="'+esc(c.file_pw)+'" spellcheck="false" autocomplete="off" aria-label="'+esc(c.nick)+' 파일 암호"><button type="button" class="btn sm" data-pw="'+c.no+'">저장</button></div></td>'+
       '<td>'+(who?'<b>'+esc(who.name)+'</b>':'<span class="muted">비어 있음</span>')+'</td></tr>'}).join("");
+  $("char-body").querySelectorAll("[data-open]").forEach(function(b){b.addEventListener("click",function(){var c=charOf(+b.dataset.open);
+    try{localStorage.setItem("ss_open",JSON.stringify({no:pad(c.no),pw:c.file_pw,t:Date.now()}))}catch(e){}
+    window.open("./","_blank")})});
   $("char-body").querySelectorAll("[data-pw]").forEach(function(b){b.addEventListener("click",function(){
     var v=$("char-body").querySelector('input[data-no="'+b.dataset.pw+'"]').value.trim();act("file_pw",{no:+b.dataset.pw,file_pw:v},b)})});
   /* 명단 */
