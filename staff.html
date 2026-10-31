@@ -160,7 +160,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mute
 </main>
 <footer><div class="container">표본사회: 인원 선별 구역 · 제작진 전용 페이지 · <a href="./">메인으로</a></div></footer>
 
-<script src="test.js?v=20261101"></script>
+<script src="test.js?v=20261102"></script>
 <script>
 (function(){
 var API="https://uqxsqolcidnypqnxmcwo.supabase.co/rest/v1/rpc/",KEY="sb_publishable_AxXOh5W_XIvEu6QjUbQyOQ_Ph4FLcse";
@@ -206,7 +206,7 @@ $("open-chk").addEventListener("change",function(){act("open",{open:this.checked
 
 function charOf(no){return (data.chars||[]).filter(function(c){return c.no===no})[0]||{}}
 function signed(c){return c.code.split("").map(function(l,k){return (+c.strength[k])*(l===LT[k]?1:-1)})}
-function distances(r){var v=r.sums.map(function(x){return x/2});
+function distances(r){var v=r.sums.map(function(x){return x/3});
   return data.chars.map(function(c){var s=signed(c),d=0;for(var k=0;k<4;k++)d+=Math.abs(v[k]-s[k]);return {c:c,d:d}}).sort(function(a,b){return a.d-b.d})}
 
 function draw(r){
@@ -240,12 +240,12 @@ function draw(r){
 }
 function detail(x){
   var bars=x.sums.map(function(s,k){var lt=LT[k],rt=RT[k],on=x.code[k];
-    return '<div class="axis"><span class="'+(on===lt?'on':'')+'">'+lt+'</span><div class="bar" title="'+AXN[k]+' '+s+'"><i style="left:'+(50-s/6*50)+'%"></i></div><span class="r '+(on===rt?'on':'')+'">'+rt+'</span></div>'}).join("");
+    return '<div class="axis"><span class="'+(on===lt?'on':'')+'">'+lt+'</span><div class="bar" title="'+AXN[k]+' '+s+'"><i style="left:'+(50-s/9*50)+'%"></i></div><span class="r '+(on===rt?'on':'')+'">'+rt+'</span></div>'}).join("");
   var ds=distances(x).map(function(o){return '<span><b>'+esc(o.c.nick)+'</b> '+o.c.code+' '+o.c.strength+' · 차이 '+o.d.toFixed(2)+(o.c.no===x.char_no?' · 배정':'')+'</span>'}).join("");
   var an=x.answers.map(function(a,i){return '<li><span>'+esc(Q[i]||"")+'</span><span>'+a+' '+esc(OPT[a-1]||"")+'</span></li>'}).join("");
   return '<div class="detail-grid"><div><span class="label">축별 점수 (왼쪽 앞 글자 · 오른쪽 뒤 글자)</span><div class="axes" style="margin-top:12px">'+bars+'</div>'+
     '<p class="label" style="margin-top:22px">표본별 차이 (작을수록 가까움)</p><div class="dist">'+ds+'</div></div>'+
-    '<div><span class="label">답변 8문항</span><ol class="answers" style="margin-top:8px">'+an+'</ol></div></div>';
+    '<div><span class="label">답변 12문항</span><ol class="answers" style="margin-top:8px">'+an+'</ol></div></div>';
 }
 $("chips").addEventListener("click",function(e){var b=e.target.closest("[data-rm]");if(!b||!data)return;
   var n=data.people[+b.dataset.rm],x=(data.results||[]).filter(function(r){return r.name===n})[0];

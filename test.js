@@ -1,9 +1,9 @@
-/* 입소 전 검사 — 8문항으로 사상 코드를 내고, 남은 표본 중 가장 가까운 캐릭터에 선착순 배정(Supabase ss_submit) */
+/* 입소 전 검사 — 12문항으로 사상 코드를 내고, 남은 표본 중 가장 가까운 캐릭터에 선착순 배정(Supabase ss_submit) */
 (function(){
 var API="https://uqxsqolcidnypqnxmcwo.supabase.co/rest/v1/rpc/",KEY="sb_publishable_AxXOh5W_XIvEu6QjUbQyOQ_Ph4FLcse";
 function rpc(fn,body){return fetch(API+fn,{method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+KEY},body:JSON.stringify(body)})
   .then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})}
-/* 순서가 곧 문항 id: 4문항씩 1~4축, 앞 4문항은 앞 글자(R/E/U/O) 쪽, 뒤 4문항은 뒤 글자(P/W/I/C) 쪽 명제 — 서버 채점과 같은 규칙 */
+/* 순서가 곧 문항 id: 4문항씩 1~4축(축마다 3문항): 1~4번은 앞 글자(R/E/U/O) 쪽, 5~8번은 뒤 글자(P/W/I/C) 쪽, 9~12번은 P·E·U·C 쪽 명제 — 서버 채점과 같은 규칙 */
 var Q=[
   "오래 이어져 온 관습에는 그럴 만한 이유가 있으니 함부로 바꾸면 안 된다.",
   "성과에 따라 보상이 크게 달라지는 것이 공정하다.",
@@ -12,9 +12,13 @@ var Q=[
   "낡은 제도는 불편을 감수하더라도 과감히 바꿔야 사회가 나아진다.",
   "많이 버는 사람은 지금보다 더 많은 세금을 내야 한다.",
   "남에게 피해를 주지 않는다면 무엇을 하든 개인의 자유다.",
-  "사회에 해로운 신념을 가진 집단은 공동체에서 배제해야 한다."
+  "사회에 해로운 신념을 가진 집단은 공동체에서 배제해야 한다.",
+  "성별에 따라 기대되는 역할은 점점 사라지는 것이 바람직하다.",
+  "경쟁이 치열해야 사회 전체가 더 발전한다.",
+  "집단 안에서는 내 의견을 앞세우기보다 분위기에 맞추는 편이 낫다.",
+  "나와 신념이 다른 사람과는 한 공간에서 지내기 불편하다."
 ];
-var OPT=["전혀 아니다","아니다","보통이다","그렇다","매우 그렇다"];
+var OPT=["전혀 아니다","아니다","그렇다","매우 그렇다"];
 window.SS_Q=Q;window.SS_OPT=OPT;
 var AX=[{R:"전통",P:"변화"},{E:"경쟁",W:"분배"},{U:"집단",I:"개인"},{O:"인정",C:"배제"}];
 var MSG={unknown:"참가자 명단에 없는 이름입니다. 이름을 그대로 입력하세요.",done:"이미 검사를 마친 이름입니다. 검사는 한 번만 받을 수 있습니다.",full:"모든 표본의 배정이 끝났습니다.",closed:"지금은 검사를 받을 수 없습니다.",bad:"답변을 다시 확인하세요.",net:"연결에 실패했습니다. 잠시 후 다시 시도하세요."};
@@ -31,7 +35,7 @@ function top(){var s=document.getElementById("test");if(s)window.scrollTo(0,Math
 function intro(){
   var saved=load();
   root.innerHTML='<div class="exam-card"><header><b>SPECIMEN TEST</b><span class="label">입소 전 검사</span></header><div class="exam-body">'+
-    '<ol class="exam-rules"><li><b>8</b><span>문항마다 생각과 가장 가까운 답을 고릅니다. 정답은 없습니다.</span></li>'+
+    '<ol class="exam-rules"><li><b>12</b><span>문항마다 생각과 가장 가까운 답을 고릅니다. 정답은 없습니다.</span></li>'+
     '<li><b>1회</b><span>검사는 이름당 한 번만 받을 수 있고, 제출한 답은 고칠 수 없습니다.</span></li>'+
     '<li><b>선착순</b><span>결과 코드와 가장 가까운 표본에 배정됩니다. 먼저 배정된 표본은 다음 사람에게 가지 않습니다.</span></li></ol>'+
     '<form class="exam-form" id="exam-form"><label class="label" for="exam-name">이름</label>'+
@@ -55,7 +59,7 @@ function ask(){
     '<p class="exam-q" id="exam-q">'+esc(Q[at])+'</p>'+
     '<div class="scale" role="radiogroup" aria-labelledby="exam-q">'+OPT.map(function(o,k){
       return '<button type="button" role="radio" class="opt" data-v="'+(k+1)+'" aria-checked="'+(ans[at]===k+1)+'"><b>'+(k+1)+'</b><span>'+o+'</span></button>'}).join("")+'</div>'+
-    '<div class="exam-nav"><button type="button" class="exam-link" id="exam-prev"'+(at?'':' disabled')+'>← 이전 문항</button><span class="label">숫자 키 1~5로도 고를 수 있습니다</span></div>'+
+    '<div class="exam-nav"><button type="button" class="exam-link" id="exam-prev"'+(at?'':' disabled')+'>← 이전 문항</button><span class="label">숫자 키 1~4로도 고를 수 있습니다</span></div>'+
     '</div></div>';
   root.querySelectorAll(".opt").forEach(function(b){b.addEventListener("click",function(){choose(+b.dataset.v)})});
   document.getElementById("exam-prev").addEventListener("click",function(){if(at){at--;ask()}});
@@ -67,7 +71,7 @@ function choose(v){if(lock)return;ans[at]=v;
   lock=true;setTimeout(function(){lock=false;at++;if(at<Q.length)ask();else confirm()},220)}
 document.addEventListener("keydown",function(e){
   if(!root.querySelector(".scale")||e.altKey||e.ctrlKey||e.metaKey)return;
-  var k=+e.key;if(k>=1&&k<=5){e.preventDefault();choose(k)}});
+  var k=+e.key;if(k>=1&&k<=4){e.preventDefault();choose(k)}});
 
 function confirm(){
   root.innerHTML='<div class="exam-card"><header><b>Q '+Q.length+' / '+Q.length+'</b><span class="label">'+esc(name)+'</span></header>'+
