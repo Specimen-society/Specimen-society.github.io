@@ -106,9 +106,6 @@ function result(r,fresh){
   root.innerHTML='<div class="exam-card result"><header><b>SPECIMEN '+pad(r.no)+'</b><span class="label">검사 결과</span></header><div class="exam-body">'+
     '<div class="res-grid"><div><span class="label">'+esc(r.name)+'님의 사상 코드</span><div class="code-box">'+slots()+'</div></div>'+
     '<div class="res-assign"><span class="label">배정 표본</span><div class="res-nick">'+esc(r.nick)+'</div><p>검사 결과와 가장 가까운 표본 '+pad(r.no)+'번에 배정되었습니다.</p></div></div>'+
-    '<div class="res-pw"><span class="label">참가자 파일 암호</span>'+(r.file_pw?'<div class="exam-row"><code id="res-pw">'+esc(r.file_pw)+'</code><button type="button" class="exam-link" id="res-copy">복사</button></div>':'<p>암호 준비 중입니다. 제작진에게 받으세요.</p>')+
-    '<p class="access">열람 권한: '+esc(r.nick)+' 본인.<br><em>코드와 암호를 타인에게 유출 시, 즉시 퇴소 처리됩니다.</em></p></div>'+
-    '<div class="exam-row"><button type="button" class="go" id="res-file"'+(r.file_pw?'':' disabled')+'>캐릭터 파일 확인하러 가기</button><span class="err" id="res-err" aria-live="polite"></span></div>'+
     '<button type="button" class="exam-link" id="res-home">← 처음 화면으로</button>'+
     '</div></div>';
   var ls=root.querySelectorAll("[data-k]"),ns=root.querySelectorAll("[data-n]");
@@ -116,13 +113,6 @@ function result(r,fresh){
   var still=!fresh||window.matchMedia("(prefers-reduced-motion:reduce)").matches;
   for(var k=0;k<4;k++){if(still)put(k);else setTimeout(put,250+k*380,k)}
   top();
-  var c=document.getElementById("res-copy");
-  if(c)c.addEventListener("click",function(){var t=r.file_pw;
-    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){c.textContent="복사됨"},function(){
-      var s=getSelection(),rg=document.createRange();rg.selectNodeContents(document.getElementById("res-pw"));s.removeAllRanges();s.addRange(rg)})});
-  document.getElementById("res-file").addEventListener("click",function(){
-    var b=this,err=document.getElementById("res-err");b.disabled=true;err.textContent="";
-    window.ssOpenFile(pad(r.no),r.file_pw).then(null,function(){err.textContent="파일을 열 수 없습니다. 제작진에게 문의하세요."}).then(function(){b.disabled=false})});
   document.getElementById("res-home").addEventListener("click",intro);
 }
 intro();
