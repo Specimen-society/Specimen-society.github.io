@@ -322,21 +322,19 @@ body.hidden-mode .stamp{animation:stampdrop .5s cubic-bezier(.2,.9,.3,1.2) .15s 
 .opt[aria-checked="true"] b{color:inherit}
 .exam-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 @media (max-width:560px){.exam-body{gap:14px}.exam-rules li{grid-template-columns:3.6em 1fr}.exam-q{font-size:20px;min-height:0}.scale{grid-template-columns:1fr;gap:6px}.opt{grid-template-columns:2em 1fr;justify-items:start;align-items:center;padding:10px 14px;text-align:left}.opt b{font-size:18px}.exam-nav .label{display:none}}
-.exam .code-box{display:grid;gap:10px;padding-bottom:20px}
+.exam .code-box{display:grid;gap:12px}
+.exam .code-rows{row-gap:30px}
 .exam .slot{position:relative;transition:color .2s,border-color .2s}
 .exam .slot.letter.on{color:var(--accent);border-color:var(--accent)}
-.exam .num-row{margin-top:14px}
 .exam .num-row .slot.on{color:var(--ink)}
-.exam .slot small{position:absolute;bottom:-20px;left:0;right:0;font-family:var(--body);font-size:11px;color:var(--muted);text-align:center}
-.res-grid{display:grid;grid-template-columns:auto 1fr;gap:20px 40px;align-items:end}
-.res-assign{display:grid;gap:6px}
+.exam .slot small{position:absolute;bottom:-23px;left:0;right:0;font-family:var(--body);font-size:11px;color:var(--muted);text-align:center}
+.result .exam-body{gap:32px}
+.res-grid{display:grid;grid-template-columns:auto 1fr;gap:32px 48px}
+.res-grid>div:first-child{display:grid;gap:12px;align-content:start}
+.res-assign{display:grid;gap:12px;align-content:start}
 .res-nick{font-family:var(--display);font-weight:900;font-size:clamp(52px,9vw,88px);line-height:1}
-.res-assign p{color:var(--muted);font-size:14.5px}
-.res-pw{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:20px}
-.res-pw code{font-family:var(--mono);font-size:20px;letter-spacing:.12em;padding:6px 12px;border:1px dashed var(--accent);color:var(--accent)}
-.res-pw .access{font-size:14px;color:var(--muted);border-left:3px solid var(--stamp);padding-left:12px}
-.res-pw .access em{font-style:normal;color:var(--stamp)}
-@media (max-width:640px){.res-grid{grid-template-columns:1fr}}
+.res-assign p{color:var(--muted);font-size:14.5px;line-height:1.5}
+@media (max-width:640px){.result .exam-body,.res-grid{gap:24px}.res-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.opt,.exam .slot{transition:none}}
 .staff-link{color:var(--muted);text-underline-offset:3px}
 .staff-link:hover{color:var(--ink)}
@@ -573,7 +571,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
 <link rel="stylesheet" href="file.css?v=20261104">
 <script src="secrets.js?v=20261104"></script>
 <script src="file.js?v=20261104"></script>
-<script src="test.js?v=20261104c"></script>
+<script src="test.js?v=20261104d"></script>
 <script>
 (function(){
   /* mobile menu */
