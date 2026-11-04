@@ -36,8 +36,8 @@ function intro(){
   var saved=load();
   root.innerHTML='<div class="exam-card"><header><b>SPECIMEN TEST</b><span class="label">입소 전 검사</span></header><div class="exam-body">'+
     '<ol class="exam-rules"><li><b>12</b><span>문항마다 생각과 가장 가까운 답을 고릅니다. 정답은 없습니다.</span></li>'+
-    '<li><b>1회</b><span>검사는 이름당 한 번만 받을 수 있고, 제출한 답은 고칠 수 없습니다.</span></li>'+
-    '<li><b>선착순</b><span>결과 코드와 가장 가까운 표본에 배정됩니다. 먼저 배정된 표본은 다음 사람에게 가지 않습니다.</span></li></ol>'+
+    '<li><b>01</b><span>검사는 한 번만 받을 수 있고, 제출한 답은 번복할 수 없습니다.</span></li>'+
+    '<li><b>05</b><span>결과 코드와 가장 가까운 표본에 배정됩니다.</span></li></ol>'+
     '<form class="exam-form" id="exam-form"><label class="label" for="exam-name">이름</label>'+
     '<div class="exam-row"><input id="exam-name" autocomplete="off" required maxlength="30" placeholder="이름"><button type="submit" class="go" id="exam-go">검사 시작</button></div>'+
     '<span class="err" id="exam-err" aria-live="polite"></span></form>'+
