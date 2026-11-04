@@ -334,7 +334,11 @@ body.hidden-mode .stamp{animation:stampdrop .5s cubic-bezier(.2,.9,.3,1.2) .15s 
 .res-assign{display:grid;gap:12px;align-content:start}
 .res-nick{font-family:var(--display);font-weight:900;font-size:clamp(52px,9vw,88px);line-height:1}
 .res-assign p{color:var(--muted);font-size:14.5px;line-height:1.5}
-@media (max-width:640px){.result .exam-body,.res-grid{gap:24px}.res-grid{grid-template-columns:1fr}}
+.res-pw{display:grid;gap:12px;border-top:1px solid var(--line);padding-top:32px}
+.res-pw code{font-family:var(--mono);font-size:20px;letter-spacing:.12em;padding:6px 12px;border:1px dashed var(--accent);color:var(--accent)}
+.res-pw .access{font-size:14px;color:var(--muted);border-left:3px solid var(--stamp);padding-left:12px}
+.res-pw .access em{font-style:normal;color:var(--stamp)}
+@media (max-width:640px){.result .exam-body,.res-grid{gap:24px}.res-pw{padding-top:24px}.res-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.opt,.exam .slot{transition:none}}
 .staff-link{color:var(--muted);text-underline-offset:3px}
 .staff-link:hover{color:var(--ink)}
@@ -571,7 +575,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
 <link rel="stylesheet" href="file.css?v=20261104">
 <script src="secrets.js?v=20261104"></script>
 <script src="file.js?v=20261104"></script>
-<script src="test.js?v=20261104e"></script>
+<script src="test.js?v=20261104f"></script>
 <script>
 (function(){
   /* mobile menu */
