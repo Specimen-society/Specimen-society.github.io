@@ -57,13 +57,13 @@ function ask(){
   root.innerHTML='<div class="exam-card"><header><b>Q '+pad(at+1)+' / '+Q.length+'</b><span class="label">'+esc(name)+'</span></header>'+
     '<div class="exam-bar" aria-hidden="true">'+segs+'</div><div class="exam-body">'+
     '<p class="exam-q" id="exam-q">'+esc(Q[at])+'</p>'+
-    '<div class="scale" role="radiogroup" aria-labelledby="exam-q">'+OPT.map(function(o,k){
+    '<div class="scale" role="radiogroup" aria-labelledby="exam-q" tabindex="-1">'+OPT.map(function(o,k){
       return '<button type="button" role="radio" class="opt" data-v="'+(k+1)+'" aria-checked="'+(ans[at]===k+1)+'"><b>'+(k+1)+'</b><span>'+o+'</span></button>'}).join("")+'</div>'+
     '<div class="exam-nav"><button type="button" class="exam-link" id="exam-prev"'+(at?'':' disabled')+'>← 이전 문항</button><span class="label">숫자 키 1~4로도 고를 수 있습니다</span></div>'+
     '</div></div>';
   root.querySelectorAll(".opt").forEach(function(b){b.addEventListener("click",function(){choose(+b.dataset.v)})});
   document.getElementById("exam-prev").addEventListener("click",function(){if(at){at--;ask()}});
-  var cur=root.querySelector('.opt[aria-checked="true"]')||root.querySelector(".opt");cur.focus({preventScroll:true});card();
+  var cur=root.querySelector('.opt[aria-checked="true"]')||root.querySelector(".scale");cur.focus({preventScroll:true});card();
 }
 var lock=false;
 function choose(v){if(lock)return;ans[at]=v;
