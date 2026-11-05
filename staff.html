@@ -162,7 +162,7 @@ footer{border-top:1px solid var(--line);padding-block:32px 48px;color:var(--mute
 </main>
 <footer><div class="container">표본사회: 인원 선별 구역 · 제작진 전용 페이지 · <a href="./">메인으로</a></div></footer>
 
-<script src="test.js?v=20261102"></script>
+<script src="test.js?v=20261105"></script>
 <script>
 (function(){
 var API="https://uqxsqolcidnypqnxmcwo.supabase.co/rest/v1/rpc/",KEY="sb_publishable_AxXOh5W_XIvEu6QjUbQyOQ_Ph4FLcse";
@@ -177,12 +177,7 @@ function when(t){var d=new Date(t);return (d.getMonth()+1)+". "+d.getDate()+". "
 function $(id){return document.getElementById(id)}
 
 /* 한글 자판으로 쳐도 같은 자리의 영문 키로 바꿔 넣음 (두벌식) — index.html과 같은 표 */
-var KEYS={"ㄱ":"r","ㄲ":"R","ㄳ":"rt","ㄴ":"s","ㄵ":"sw","ㄶ":"sg","ㄷ":"e","ㄸ":"E","ㄹ":"f","ㄺ":"fr","ㄻ":"fa","ㄼ":"fq","ㄽ":"ft","ㄾ":"fx","ㄿ":"fv","ㅀ":"fg","ㅁ":"a","ㅂ":"q","ㅃ":"Q","ㅄ":"qt","ㅅ":"t","ㅆ":"T","ㅇ":"d","ㅈ":"w","ㅉ":"W","ㅊ":"c","ㅋ":"z","ㅌ":"x","ㅍ":"v","ㅎ":"g",
-  "ㅏ":"k","ㅐ":"o","ㅑ":"i","ㅒ":"O","ㅓ":"j","ㅔ":"p","ㅕ":"u","ㅖ":"P","ㅗ":"h","ㅘ":"hk","ㅙ":"ho","ㅚ":"hl","ㅛ":"y","ㅜ":"n","ㅝ":"nj","ㅞ":"np","ㅟ":"nl","ㅠ":"b","ㅡ":"m","ㅢ":"ml","ㅣ":"l"};
-var CHO="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",JUNG="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ",JONG=" ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
-function toEng(v){return v.replace(/[가-힣ㄱ-ㅣ]/g,function(ch){var c=ch.charCodeAt(0)-0xAC00;
-  if(c<0)return KEYS[ch]||ch;
-  var j=c%28;return KEYS[CHO[Math.floor(c/588)]]+KEYS[JUNG[Math.floor(c%588/28)]]+(j?KEYS[JONG[j]]:"")})}
+var toEng=window.ssToEng;
 var inp=$("lock-pw");
 function engInput(e){if(e&&e.isComposing)return;var v=toEng(inp.value);if(v!==inp.value){inp.value=v;inp.setSelectionRange(v.length,v.length)}}
 inp.addEventListener("input",engInput);inp.addEventListener("compositionend",function(){setTimeout(engInput,0)});
@@ -310,7 +305,7 @@ function render(x){
     g.font='700 22px '+SANS;g.fillStyle=x.code[k]===LT[k]?C.accent:C.muted;g.textAlign="right";g.fillText(LT[k],bx-16,by+8);
     g.fillStyle=x.code[k]===RT[k]?C.accent:C.muted;g.textAlign="left";g.fillText(RT[k],bx+bw+16,by+8);
     g.fillStyle=C.line;g.fillRect(bx,by-6,bw,12);g.fillStyle=C.ink;g.fillRect(bx+bw/2-1,by-14,2,28);
-    var mx=bx+bw*(0.5-x.sums[k]/12);g.fillStyle=C.accent;g.fillRect(mx-5,by-16,10,32)}
+    var mx=bx+bw*(0.5-x.sums[k]/9);g.fillStyle=C.accent;g.fillRect(mx-5,by-16,10,32)}
   /* 배정 */
   y+=4*58+20;
   g.fillStyle=C.ink;g.fillRect(P,y,W-2*P,3);

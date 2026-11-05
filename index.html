@@ -575,7 +575,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
 <link rel="stylesheet" href="file.css?v=20261104">
 <script src="secrets.js?v=20261104"></script>
 <script src="file.js?v=20261104"></script>
-<script src="test.js?v=20261104f"></script>
+<script src="test.js?v=20261105"></script>
 <script>
 (function(){
   /* mobile menu */
@@ -619,14 +619,14 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
     {axis:"4축 · 신념",letter:"O",en:"Open",meaning:"인정",desc:"어떤 믿음이든 존중받아야 한다고 봅니다.<br>강도 2 이상이면 관련 명제에 '그렇다'를 고르게 됩니다.",alt:{letter:"C",en:"Closed",meaning:"배제",desc:"자신의 신념과 다른 믿음은 받아들이기 어렵다고 봅니다."}}
   ];
   var note=document.getElementById("axis-note"),slots=document.querySelectorAll("#code-row button.slot");
-  var cur=0,side=0;
-  function show(i,sd){cur=i;side=sd||0;slots.forEach(function(b){b.setAttribute("aria-pressed",b.dataset.i==String(i)?"true":"false")});
+  var ax=0,side=0; /* 축 번호 — 참가자 카드의 cur와 따로 */
+  function show(i,sd){ax=i;side=sd||0;slots.forEach(function(b){b.setAttribute("aria-pressed",b.dataset.i==String(i)?"true":"false")});
     document.querySelectorAll("#num-row .slot").forEach(function(n){n.classList.toggle("on",n.dataset.i==String(i))});var d=data[i],v=side?d.alt:d;
     slots[i].textContent=d.letter;
     note.innerHTML='<span class="label">'+d.axis+'</span>'+
       '<div class="side-tabs" role="tablist" aria-label="코드 방향 선택">'+[d,d.alt].map(function(x,k){return '<button type="button" role="tab" class="side-tab" data-s="'+k+'" aria-selected="'+(k==side)+'"><b>'+x.letter+'</b> '+x.meaning+'</button>'}).join('')+'</div>'+
       '<strong><span class="ini">'+v.letter+'</span>'+v.en.slice(1)+' · '+v.meaning+'</strong><span>'+(side?v.desc:d.desc)+'</span>';
-    note.querySelectorAll(".side-tab").forEach(function(t){t.addEventListener("click",function(){show(cur,+t.dataset.s)})})}
+    note.querySelectorAll(".side-tab").forEach(function(t){t.addEventListener("click",function(){show(ax,+t.dataset.s)})})}
   slots.forEach(function(b){b.addEventListener("click",function(){show(+b.dataset.i)})});
   show(0);
 
@@ -684,12 +684,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 56px;color:var(--mute
     setHash("#secret-"+lockNo);pw.focus()}
   document.getElementById("p-secret").addEventListener("click",openLock);
   /* 한글 자판으로 쳐도 같은 자리의 영문 키로 바꿔 넣음 (두벌식) */
-  var KEY={"ㄱ":"r","ㄲ":"R","ㄳ":"rt","ㄴ":"s","ㄵ":"sw","ㄶ":"sg","ㄷ":"e","ㄸ":"E","ㄹ":"f","ㄺ":"fr","ㄻ":"fa","ㄼ":"fq","ㄽ":"ft","ㄾ":"fx","ㄿ":"fv","ㅀ":"fg","ㅁ":"a","ㅂ":"q","ㅃ":"Q","ㅄ":"qt","ㅅ":"t","ㅆ":"T","ㅇ":"d","ㅈ":"w","ㅉ":"W","ㅊ":"c","ㅋ":"z","ㅌ":"x","ㅍ":"v","ㅎ":"g",
-    "ㅏ":"k","ㅐ":"o","ㅑ":"i","ㅒ":"O","ㅓ":"j","ㅔ":"p","ㅕ":"u","ㅖ":"P","ㅗ":"h","ㅘ":"hk","ㅙ":"ho","ㅚ":"hl","ㅛ":"y","ㅜ":"n","ㅝ":"nj","ㅞ":"np","ㅟ":"nl","ㅠ":"b","ㅡ":"m","ㅢ":"ml","ㅣ":"l"};
-  var CHO="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",JUNG="ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ",JONG=" ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ";
-  function toEng(v){return v.replace(/[\uAC00-\uD7A3\u3131-\u3163]/g,function(ch){var c=ch.charCodeAt(0)-0xAC00;
-    if(c<0)return KEY[ch]||ch;
-    var j=c%28;return KEY[CHO[Math.floor(c/588)]]+KEY[JUNG[Math.floor(c%588/28)]]+(j?KEY[JONG[j]]:"")})}
+  var toEng=window.ssToEng;
   function engInput(e){if(e.isComposing)return;var v=toEng(pw.value);if(v!==pw.value){pw.value=v;pw.setSelectionRange(v.length,v.length)}}
   pw.addEventListener("input",engInput);pw.addEventListener("compositionend",function(){setTimeout(engInput,0,{})});
   function closeLock(){if(lock.open){typeof lock.close==="function"?lock.close():lock.removeAttribute("open")}}
