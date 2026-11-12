@@ -22,35 +22,30 @@ function render(f){
   var L=f.code[0].split(""),N=f.code[1].split("");
   var h='';
   h+='<section class="file-head"><div class="container fh-grid"><div>';
-  h+='<div class="fh-no"><span class="label">참가자 파일 · Specimen '+pad(f.no)+'</span></div>';
   h+='<h1 class="big">'+f.nick+'</h1>';
   h+=f.culprit?'<p class="verdict guilty">당신은 범인입니다.</p><p class="order">범인은 거짓말이 가능하며, 다른 참여자를 이용하여 완전 범죄를 완성하세요.</p>'
               :'<p class="verdict">당신은 범인이 아닙니다.</p>';
   h+='<p class="access">열람 권한: '+f.nick+' 본인.<br><em>타인에게 유출 시, 즉시 퇴소 처리됩니다.</em></p>';
   h+='</div><div class="label-card" aria-label="신상 정보"><header><b>SPECIMEN '+pad(f.no)+'</b><span class="label">'+(f.culprit?'범인 전용':'개인 파일')+'</span></header><dl class="facts">';
   ["이름","나이","성별","직업"].forEach(function(k){h+='<div><dt>'+k+'</dt><dd>'+esc(f.info[k]||"")+'</dd></div>'});
-  h+='</dl><div class="code-box"><span class="label">사상 코드</span><div class="code-rows"><span class="row-label">코드</span><div class="code-row">';
-  L.forEach(function(c,k){h+='<span class="slot letter">'+c+'<small>'+(AX[k][c]||"")+'</small></span>'});
-  h+='</div><span class="row-label num-row">강도</span><div class="code-row num-row">';
-  N.forEach(function(c){h+='<span class="slot">'+c+'</span>'});
-  h+='</div></div></div></div></div></section>';
+  h+='</dl><div class="code-box"><span class="label">사상 코드</span>'+(window.ssChart?window.ssChart(L,N):esc(f.code[0]+" "+f.code[1]))+'</div></div></div></section>';
 
   h+='<section class="sec" id="interview"><div class="container"><div class="sec-head"><span class="label">사전 인터뷰</span><h2>출연 전 제작진 녹화</h2></div><div class="qs">';
   f.qs.forEach(function(q,k){h+='<div class="qcard"><span class="label">Q'+(k+1)+'</span><p class="qq">'+md(q[0])+'</p><p class="qa">'+md(q[1])+'</p></div>'});
   h+='</div></div></section>';
 
-  h+='<section class="sec" id="story"><div class="container"><div class="sec-head"><span class="label">인물 서사</span><h2>'+f.nick+'의 이야기</h2></div><div class="story"><nav class="toc" aria-label="서사 목차">';
+  h+='<section class="sec" id="story"><div class="container"><div class="sec-head"><span class="label">인물 서사</span></div><div class="story"><nav class="toc" aria-label="서사 목차">';
   f.chapters.forEach(function(c,k){var t=c.t.replace(/^\d+\.\s*/,"");h+='<a href="#ch-'+f.id+'-'+(k+1)+'" data-k="'+k+'"><span>'+pad(k+1)+'</span>'+esc(t)+'</a>'});
   h+='</nav><div>';
   f.chapters.forEach(function(c,k){var t=c.t.replace(/^\d+\.\s*/,"");
     h+='<article class="chapter" id="ch-'+f.id+'-'+(k+1)+'"><h3><span>'+pad(k+1)+'</span>'+esc(t)+'</h3><div class="prose">'+c.p.map(para).join("")+'</div></article>'});
   h+='</div></div></div></section>';
 
-  h+='<section class="sec" id="record"><div class="container"><div><div class="sec-head"><span class="label">기록</span><h2>표본사회 6일의 기록</h2>'+(f.pub?'<p>모든 참가자가 함께 본 공개 기록이다. 아래 ‘나의 기록’은 본인만 아는 내용이다.</p></div><div class="tbl-wrap"><table class="pub-tbl"><thead><tr>'+f.pub.head.map(function(x){return '<th>'+esc(x)+'</th>'}).join("")+'</tr></thead><tbody>'+f.pub.rows.map(function(r){return '<tr>'+r.map(function(c,k){return '<td'+(k?'':' class="day"')+' data-l="'+esc(f.pub.head[k])+'">'+esc(c)+(k?'':'일차')+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table></div><div class="sec-head" style="margin-top:40px"><span class="label">본인만 아는 내용</span><h2>나의 기록</h2></div>':'</div>')+'<div class="tbl-wrap"><table><thead><tr><th>일차</th><th>기록</th></tr></thead><tbody>';
+  h+='<section class="sec" id="record"><div class="container"><div><div class="sec-head"><span class="label">표본사회</span><h2>6일의 기록</h2>'+(f.pub?'</div><div class="tbl-wrap"><table class="pub-tbl"><thead><tr>'+f.pub.head.map(function(x){return '<th>'+esc(x)+'</th>'}).join("")+'</tr></thead><tbody>'+f.pub.rows.map(function(r){return '<tr>'+r.map(function(c,k){return '<td'+(k?'':' class="day"')+' data-l="'+esc(f.pub.head[k])+'">'+esc(c)+(k?'':'일차')+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table></div>'+(f.speech?'<div class="sec-head" style="margin-top:40px"><h2>5일차 저녁 인생 스피치</h2></div><div class="tbl-wrap"><table class="speech-tbl"><thead><tr><th>인물</th><th>스피치 내용</th></tr></thead><tbody>'+f.speech.map(function(r){return '<tr><td class="day">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'}).join("")+'</tbody></table></div>':'')+'<div class="sec-head" style="margin-top:40px"><h2>나의 기록</h2></div>':'</div>')+'<div class="tbl-wrap"><table><thead><tr><th>일차</th><th>기록</th></tr></thead><tbody>';
   f.rec.forEach(function(d){var day=typeof d==="string"?d:d[0];h+='<tr><td class="day">'+esc(day)+'일차</td><td>'+(typeof d==="string"?'<span class="blank"></span>':lines(d[1]))+'</td></tr>'});
-  h+='</tbody></table></div></div></div></section><section class="sec" id="night"><div class="container"><div><div class="sec-head"><span class="label">행적</span><h2>'+esc(f.nightTitle||(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적'))+'</h2>'+(f.nightNote?'<p>'+md(f.nightNote)+'</p>':'')+'</div><div class="tbl-wrap tbl-scroll"><table class="night-tbl'+(f.night&&f.night.head.length>3?' four':'')+'"><thead><tr>';
-  if(f.night){f.night.head.forEach(function(x){h+='<th>'+esc(x)+'</th>'});h+='</tr></thead><tbody>';
-    f.night.rows.forEach(function(r){h+='<tr>'+r.map(function(c,k){return '<td'+(k?'':' class="day"')+'>'+lines(c)+'</td>'}).join("")+'</tr>'})}
+  h+='</tbody></table></div></div></div></section><section class="sec" id="night"><div class="container"><div><div class="sec-head"><span class="label">알리바이</span><h2>'+esc(f.nightTitle||(f.culprit?'6일차 밤의 진짜 행적':'6일차 밤의 행적'))+'</h2>'+(f.nightNote?'<p>'+md(f.nightNote)+'</p>':'')+'</div><div class="tbl-wrap tbl-scroll"><table class="night-tbl"><thead><tr>';
+  if(f.night){f.night.head.slice(0,3).forEach(function(x){h+='<th>'+esc(x)+'</th>'});h+='</tr></thead><tbody>';
+    f.night.rows.forEach(function(r){h+='<tr>'+r.slice(0,3).map(function(c,k){return '<td'+(k?'':' class="day"')+'>'+lines(c)+(k===2&&r[3]&&r[3].length?'<div class="seen">'+lines(r[3])+'</div>':'')+'</td>'}).join("")+'</tr>'})}
   else{h+='<th>시각</th><th>장소</th><th>한 일</th>'+(f.culprit?'':'<th>목격</th>')+'</tr></thead><tbody>';
     for(var r=0;r<4;r++){h+='<tr><td class="day"><span class="blank"></span></td><td><span class="blank"></span></td><td><span class="blank"></span></td>'+(f.culprit?'':'<td><span class="blank"></span></td>')+'</tr>'}}
   h+='</tbody></table></div></div></div></section>';

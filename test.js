@@ -28,6 +28,18 @@ var KB={"ㄱ":"r","ㄲ":"R","ㄳ":"rt","ㄴ":"s","ㄵ":"sw","ㄶ":"sg","ㄷ":"e"
   if(c<0)return KB[ch]||ch;
   var j=c%28;return KB[CHO[Math.floor(c/588)]]+KB[JUNG[Math.floor(c%588/28)]]+(j?KB[JONG[j]]:"")})};
 var AX=[{R:"전통",P:"변화"},{E:"경쟁",W:"분배"},{U:"집단",I:"개인"},{O:"인정",C:"배제"}];
+window.ssChart=function(L,N){return chart(L,N)};
+/* 결과 막대: 왼쪽·오른쪽 극 (규칙 화면 탭 순서와 같음) */
+var POLE=[["R","P","Rooted","Prospective","젠더·성"],["E","W","Enterprise","Welfare","경제"],["U","I","Unity","Individual","질서"],["O","C","Open","Closed","신념"]];
+function chart(L,N){var tot=0;
+  var rows=POLE.map(function(p,k){var s=+N[k]||0,side=L[k]===p[0]?"l":"r";tot+=s;
+    return '<div class="rc-row" data-side="'+side+'"'+(s===3?' data-full':'')+' style="--s:'+s+'">'+
+      '<div class="rc-top"><span>'+p[2]+'</span><b>'+p[4]+'</b><span>'+p[3]+'</span></div>'+
+      '<div class="rc-bar"><i class="rc-fill"></i><span class="rc-pole'+(side==="l"?" on":"")+'">'+AX[k][p[0]]+'</span><span class="rc-n">'+s+'</span><span class="rc-pole'+(side==="r"?" on":"")+'">'+AX[k][p[1]]+'</span></div></div>'}).join("");
+  return '<div class="res-chart" role="img" aria-label="사상 코드 '+L.join("")+', 강도 '+N.join("")+', 합계 '+tot+'">'+
+    '<div class="rc-code" aria-hidden="true">'+L.join("")+'</div><div class="rc-rows" aria-hidden="true">'+rows+
+    '<div class="rc-scale"><span>3</span><span>2</span><span>1</span><span>1</span><span>2</span><span>3</span></div></div>'+
+    '<div class="rc-total" aria-hidden="true">TOTAL <b>'+(tot<10?"0":"")+tot+'</b></div></div>'}
 var MSG={unknown:"참가자 명단에 없는 이름입니다. 이름을 그대로 입력하세요.",done:"이미 검사를 마친 이름입니다. 검사는 한 번만 받을 수 있습니다.",full:"모든 표본의 배정이 끝났습니다.",closed:"지금은 검사를 받을 수 없습니다.",bad:"답변을 다시 확인하세요.",net:"연결에 실패했습니다. 잠시 후 다시 시도하세요."};
 var SAVE="ss_result";
 var root=document.getElementById("exam"),name="",ans=[],at=0;
@@ -41,12 +53,12 @@ function top(){var s=document.getElementById("test");if(s)window.scrollTo(0,Math
 
 function intro(){
   var saved=load();
-  root.innerHTML='<div class="exam-card"><header><b>SPECIMEN TEST</b><span class="label">입소 전 검사</span></header><div class="exam-body">'+
-    '<ol class="exam-rules"><li><b>12</b><span>문항마다 생각과 가장 가까운 답을 고릅니다. 정답은 없습니다.</span></li>'+
-    '<li><b>01</b><span>검사는 한 번만 받을 수 있고, 제출한 답은 번복할 수 없습니다.</span></li>'+
-    '<li><b>05</b><span>결과 코드와 가장 가까운 표본에 배정됩니다.</span></li></ol>'+
+  root.innerHTML='<div class="exam-card"><header><b>SPECIMEN TEST</b></header><div class="exam-body">'+
+    '<ol class="exam-rules"><li><b>12</b><span>문항마다 생각과 가장 가까운 답을 고릅니다.</span></li>'+
+    '<li><b>01</b><span>제출이 완료된 검사는 번복할 수 없습니다.</span></li>'+
+    '<li><b>05</b><span>결과와 가장 가까운 표본에 자동 배정됩니다.</span></li></ol>'+
     '<form class="exam-form" id="exam-form"><label class="label" for="exam-name">이름</label>'+
-    '<div class="exam-row"><input id="exam-name" autocomplete="off" required maxlength="30" placeholder="이름"><button type="submit" class="go" id="exam-go">검사 시작</button></div>'+
+    '<div class="exam-row"><input id="exam-name" autocomplete="off" required maxlength="30" placeholder="밴드 닉네임을 입력해 주세요."><button type="submit" class="go" id="exam-go">검사 시작</button></div>'+
     '<span class="err" id="exam-err" aria-live="polite"></span></form>'+
     (saved?'<button type="button" class="exam-link" id="exam-saved">이 기기에서 받은 결과 다시 보기 · '+esc(saved.name)+'</button>':'')+
     '</div></div>';
@@ -110,17 +122,22 @@ function stopScan(){clearInterval(scanT);scanT=null}
 
 function result(r,fresh){
   var L=r.code.split(""),N=r.strength.split("");
-  root.innerHTML='<div class="exam-card result"><header><b>SPECIMEN '+pad(r.no)+'</b><span class="label">검사 결과</span></header><div class="exam-body">'+
-    '<div class="res-grid"><div><span class="label">'+esc(r.name)+'님의 사상 코드</span><div class="code-box">'+slots()+'</div></div>'+
-    '<div class="res-assign"><span class="label">배정 표본</span><div class="res-nick">'+esc(r.nick)+'</div><p>검사 결과와 가장 가까운 표본 '+pad(r.no)+'번에 배정되었습니다.</p></div></div>'+
+  /* 검사 결과(코드)와 배정 표본은 별도 카드 */
+  root.innerHTML='<div class="result-stack"><div class="exam-card result"><header><b>검사 결과</b></header><div class="exam-body">'+
+    '<div class="res-code"><span class="label">'+esc(r.name)+'님의 사상 코드</span>'+chart(L,N)+'</div>'+
+    '</div></div>'+
+    '<div class="exam-card result"><header><b>SPECIMEN '+pad(r.no)+'</b><span class="label">배정 표본</span></header><div class="exam-body">'+
+    '<div class="res-assign"><div class="res-nick">'+esc(r.nick)+'</div><p>검사 결과와 가장 가까운 표본 '+pad(r.no)+'번에 배정되었습니다.</p></div>'+
     '<div class="res-pw"><span class="label">참가자 파일 암호</span>'+(r.file_pw?'<div class="exam-row"><code id="res-pw">'+esc(r.file_pw)+'</code><button type="button" class="exam-link" id="res-copy">복사</button></div>':'<p>암호 준비 중입니다. 제작진에게 받으세요.</p>')+
     '<p class="access">열람 권한: '+esc(r.nick)+' 본인.<br><em>코드와 암호를 타인에게 유출 시, 즉시 퇴소 처리됩니다.</em></p></div>'+
     '<div class="exam-row"><button type="button" class="go" id="res-file"'+(r.file_pw?'':' disabled')+'>캐릭터 파일 확인하러 가기</button><span class="err" id="res-err" aria-live="polite"></span></div>'+
     '<button type="button" class="exam-link" id="res-home">← 처음 화면으로</button>'+
-    '</div></div>';
-  var ls=root.querySelectorAll("[data-k]"),ns=root.querySelectorAll("[data-n]");
-  function put(k){ls[k].innerHTML=L[k]+'<small>'+(AX[k][L[k]]||"")+'</small>';ns[k].textContent=N[k];ls[k].classList.add("on");ns[k].classList.add("on")}
+    '</div></div></div>';
+  /* 막 받은 결과면 막대가 한 축씩 차오름 */
+  var ch=root.querySelector(".res-chart"),rs=ch.querySelectorAll(".rc-row");
+  function put(k){rs[k].classList.add("on")}
   var still=!fresh||window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if(!still)ch.classList.add("rc-anim");
   for(var k=0;k<4;k++){if(still)put(k);else setTimeout(put,250+k*380,k)}
   top();
   var c=document.getElementById("res-copy");

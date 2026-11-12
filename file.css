@@ -130,3 +130,17 @@ body.no-stamp .stamp{display:none!important}
 #secret .rel .nk{font-weight:600}
 @media (max-width:900px){#secret .pub-tbl thead{display:none}#secret .pub-tbl,#secret .pub-tbl tbody,#secret .pub-tbl tr{display:block}#secret .pub-tbl tr{padding:8px 0;border-bottom:1.5px solid var(--ink)}#secret .pub-tbl tr:last-child{border-bottom:0}#secret .pub-tbl td{display:grid;grid-template-columns:7em 1fr;gap:10px;border:0;padding:4px 12px;width:auto}#secret .pub-tbl td::before{content:attr(data-l);font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:3px}#secret .pub-tbl td.day{display:block;font-size:15px;padding-bottom:6px}#secret .pub-tbl td.day::before{content:none}}
 #secret .pub-tbl thead th:first-child{width:4.5rem}
+/* 사이트 라벨 규칙: 자간·대문자 변환 없이 본문 서체 */
+#secret .label,#secret .label-card header b,#secret .row-label,#secret .toc a span,#secret th,#secret .ev-slot b,#secret .rel .tag{letter-spacing:0;text-transform:none}
+
+/* 질문 카드: Q 번호와 질문을 한 줄에 */
+#secret .qcard{grid-template-columns:auto minmax(0,1fr);align-items:baseline;column-gap:10px}
+#secret .qcard .qa{grid-column:1/-1}
+
+/* 인물 서사: 양쪽 끝 맞춤, 글자 단위 줄바꿈 */
+#secret .chapter p{text-align:justify;word-break:break-all}
+
+/* 밤 행적: 목격 내용은 한 일 아래 구분선 밑에 */
+#secret .night-tbl .seen{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted)}
+#secret .night-tbl,#secret .night-tbl:not(.four){min-width:0}
+@media (max-width:640px){#secret .night-tbl:not(.four) th:nth-child(2){width:5.5rem}#secret .night-tbl td.day{width:3.6rem}}
