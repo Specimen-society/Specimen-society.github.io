@@ -181,7 +181,7 @@ footer{padding-block:28px 36px;color:var(--desk-muted);font-size:13.5px}
     </section>
 
     <section class="sec" id="people">
-      <div class="sec-head"><h2>참가자 명단</h2><p>이름을 입력하고 Enter(또는 추가)를 누르면 바로 저장됩니다. 쉼표나 줄바꿈으로 여러 명을 한 번에 넣을 수도 있습니다. 이름 옆 ×를 누르면 명단에서 지웁니다.<br>검사를 마친 이름은 × 또는 전체 삭제로만 지워지며, 이때 검사 기록도 함께 지워지고 배정된 표본이 다시 빕니다.</p></div>
+      <div class="sec-head"><h2>참가자 명단</h2></div>
       <div class="card">
         <div class="chips" id="chips"></div>
         <form class="toolbar" id="people-form"><input id="people" autocomplete="off" spellcheck="false" placeholder="이름 입력 후 Enter" aria-label="추가할 이름" style="flex:1;min-width:10em;padding:8px 10px;border:1px solid var(--line);background:var(--paper)"><button type="submit" class="btn sm" id="people-save">추가</button></form>
@@ -272,7 +272,7 @@ function draw(r){
     var v=$("char-body").querySelector('input[data-no="'+b.dataset.pw+'"]').value.trim();act("file_pw",{no:+b.dataset.pw,file_pw:v},b)})});
   /* 명단 */
   var done={};res.forEach(function(x){done[x.name]=1});
-  $("chips").innerHTML=(r.people||[]).map(function(n,i){return '<span class="chip'+(done[n]?' done':'')+'">'+esc(n)+(done[n]?' · 완료':'')+'<button type="button" data-rm="'+i+'" aria-label="'+esc(n)+' 명단에서 삭제">×</button></span>'}).join("")||'<span class="muted" style="font-size:14px;display:inline-block;padding-bottom:5px">명단이 비어 있습니다. 명단이 비어 있으면 누구도 검사를 받을 수 없습니다.</span>';
+  $("chips").innerHTML=(r.people||[]).map(function(n,i){return '<span class="chip'+(done[n]?' done':'')+'">'+esc(n)+(done[n]?' · 완료':'')+'<button type="button" data-rm="'+i+'" aria-label="'+esc(n)+' 명단에서 삭제">×</button></span>'}).join("")||'<span class="muted" style="font-size:14px;display:inline-block;padding-bottom:10px">명단이 비어 있습니다. 명단이 비어 있으면 누구도 검사를 받을 수 없습니다.</span>';
 }
 function detail(x){
   var bars=x.sums.map(function(s,k){var lt=LT[k],rt=RT[k],on=x.code[k];
