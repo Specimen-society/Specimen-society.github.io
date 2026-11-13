@@ -39,11 +39,9 @@
 html,body{overflow-x:clip}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;margin:0;word-break:keep-all;overflow-wrap:break-word;line-break:strict;-webkit-text-size-adjust:100%}
-p,li,dd,td,blockquote{text-wrap:pretty}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;margin:0;word-break:normal;overflow-wrap:anywhere;line-break:strict;-webkit-text-size-adjust:100%}
 button,input,textarea,dialog,table{word-break:inherit;overflow-wrap:inherit}
-.wd{white-space:nowrap}
-h1,h2,h3{font-weight:700;text-wrap:balance;margin:0;overflow-wrap:break-word;min-width:0}
+h1,h2,h3{font-weight:700;margin:0;overflow-wrap:break-word;min-width:0}
 p{margin:0}
 a{color:inherit}
 .container{max-width:1120px;margin:0 auto;padding-inline:20px}
@@ -192,7 +190,7 @@ button.slot[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink
 .str-key dl{margin:0;display:grid;gap:6px}
 .str-key dl div{display:grid;grid-template-columns:2em minmax(0,1fr);align-items:baseline}
 .str-key dt{font-family:var(--mono);font-size:18px;color:var(--muted)}
-.str-key dd{margin:0;line-height:1.6;color:var(--muted);word-break:keep-all}
+.str-key dd{margin:0;line-height:1.6;color:var(--muted)}
 .str-key .on dt{color:var(--stamp)}
 .str-key .on dd{color:var(--ink)}
 .credits{display:flex;flex-wrap:wrap;gap:4px 28px;margin-top:32px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
@@ -754,7 +752,7 @@ footer{border-top:0;color:var(--desk-muted)}
   </div>
 </footer>
 
-<link rel="stylesheet" href="file.css?v=20261113a">
+<link rel="stylesheet" href="file.css?v=20261113b">
 <script src="secrets.js?v=20261112i"></script>
 <script src="file.js?v=20261112h"></script>
 <script src="test.js?v=20261112k"></script>
@@ -937,34 +935,6 @@ document.querySelectorAll(".zr").forEach(function(g){
 document.getElementById("z-close").addEventListener("click",close);
 dlg.addEventListener("click",function(e){if(e.target===dlg)close()});
 dlg.addEventListener("close",function(){if(op&&op.focus)op.focus()});
-})();
-</script>
-<script>
-(function(){
-var SKIP={SCRIPT:1,STYLE:1,SVG:1,TEXTAREA:1,INPUT:1,TITLE:1};
-function wrap(root){
-  var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
-    if(!/[가-힣]/.test(n.nodeValue))return NodeFilter.FILTER_REJECT;
-    if(/flex|grid/.test(getComputedStyle(n.parentNode).display))return NodeFilter.FILTER_REJECT;
-    for(var e=n.parentNode;e&&e!==document.body;e=e.parentNode){
-      if(SKIP[e.nodeName.toUpperCase()]||(e.classList&&e.classList.contains('wd'))||e.id==='secret-body')return NodeFilter.FILTER_REJECT;
-    }
-    return NodeFilter.FILTER_ACCEPT;}});
-  var list=[],n;while(n=w.nextNode())list.push(n);
-  list.forEach(function(t){
-    var parts=t.nodeValue.split(/(\s+)/),f=document.createDocumentFragment();
-    parts.forEach(function(x){
-      if(!x)return;
-      if(/^\s+$/.test(x)||x.length>16){f.appendChild(document.createTextNode(x));return;}
-      var sp=document.createElement('span');sp.className='wd';sp.textContent=x;f.appendChild(sp);
-    });
-    t.parentNode.replaceChild(f,t);
-  });
-}
-var busy=false;
-function run(){busy=true;wrap(document.body);busy=false;}
-run();
-new MutationObserver(function(){if(!busy){busy=true;setTimeout(run,0);}}).observe(document.body,{childList:true,subtree:true,characterData:true});
 })();
 </script>
 
