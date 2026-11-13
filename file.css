@@ -144,3 +144,7 @@ body.no-stamp .stamp{display:none!important}
 #secret .night-tbl .seen{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted)}
 #secret .night-tbl,#secret .night-tbl:not(.four){min-width:0}
 @media (max-width:640px){#secret .night-tbl:not(.four) th:nth-child(2){width:5.5rem}#secret .night-tbl td.day{width:3.6rem}}
+/* 6일차 밤: 시간 칸 줄이고 장소 칸 넓힘 */
+#secret .night-tbl td.day{width:4.2em}
+#secret .night-tbl:not(.four) th:nth-child(2){width:14rem}
+@media (max-width:640px){#secret .night-tbl td.day{width:3rem}#secret .night-tbl:not(.four) th:nth-child(2){width:7rem}}

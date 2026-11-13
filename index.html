@@ -550,7 +550,7 @@ footer{border-top:0;color:var(--desk-muted)}
     <div class="head-row">
       <a class="brand" href="#top" data-view="home" aria-label="표본사회: 인원 선별 구역"><b>표본사회:</b><span>인원 선별 구역</span></a>
       <nav class="nav" id="nav" aria-label="주 메뉴">
-        <button type="button" data-view="home">개요</button><button type="button" data-view="rules">규칙</button><button type="button" data-view="cast">참가자</button><button type="button" data-view="shadow">히든</button><button type="button" class="nav-cta" data-view="test">입소 검사</button><span class="file-tab" aria-current="page">참가자 파일</span>
+        <button type="button" data-view="home">개요</button><button type="button" data-view="rules">규칙</button><button type="button" data-view="cast">참가자</button><button type="button" data-view="shadow">히든</button><button type="button" class="nav-cta" data-view="test">입소 검사</button><span class="file-tab" id="file-tab" aria-current="page">참가자 파일</span>
       </nav>
       <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="mobile-nav" aria-label="메뉴 열기">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -754,7 +754,7 @@ footer{border-top:0;color:var(--desk-muted)}
   </div>
 </footer>
 
-<link rel="stylesheet" href="file.css?v=20261112e">
+<link rel="stylesheet" href="file.css?v=20261113a">
 <script src="secrets.js?v=20261112i"></script>
 <script src="file.js?v=20261112h"></script>
 <script src="test.js?v=20261112k"></script>
@@ -885,7 +885,7 @@ footer{border-top:0;color:var(--desk-muted)}
     go.disabled=true;err.textContent="";
     pw.value=toEng(pw.value);
     decrypt(SECRETS[lockNo],pw.value).then(function(text){
-      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);curFile=f;
+      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);curFile=f;document.getElementById("file-tab").textContent="참가자 파일·"+f.nick;
       opener=null;closeLock();close();showView("secret");
       if(f.culprit)document.body.classList.add("hidden-mode","no-stamp");
     },function(){err.textContent="암호가 일치하지 않습니다.";pw.select()}).then(function(){go.disabled=false})});
@@ -894,7 +894,7 @@ footer{border-top:0;color:var(--desk-muted)}
   window.ssOpenFile=function(no,pass){
     if(!window.crypto||!window.crypto.subtle||!SECRETS[no])return Promise.reject();
     return decrypt(SECRETS[no],toEng(pass)).then(function(text){
-      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);curFile=f;
+      var f=JSON.parse(text);renderFile(document.getElementById("secret-body"),f);curFile=f;document.getElementById("file-tab").textContent="참가자 파일·"+f.nick;
       showView("secret");if(f.culprit)document.body.classList.add("hidden-mode","no-stamp")})};
 
   /* PDF로 저장: 브라우저 인쇄 창 → 'PDF로 저장' */
