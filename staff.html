@@ -90,6 +90,18 @@ tr:last-child td{border-bottom:0}
 .muted{color:var(--muted)}
 .pw-row{display:flex;gap:6px;align-items:center}
 .pw-row input{font-family:var(--mono);letter-spacing:.08em;width:12em;min-width:0;padding:5px 8px;border:1px solid var(--line);background:var(--bg)}
+.chars-tbl .pw-row input{flex:1}
+@media (max-width:640px){
+.chars-tbl thead{display:none}
+.chars-tbl tr{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px 12px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.chars-tbl tr:last-child{border-bottom:0}
+.chars-tbl td{padding:0;border:0}
+.chars-tbl td:nth-child(5),.chars-tbl td:nth-child(6){grid-column:1/-1;display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:10px;align-items:center}
+.chars-tbl td:nth-child(5)::before{content:"파일 암호"}
+.chars-tbl td:nth-child(6)::before{content:"배정된 사람"}
+.chars-tbl td:nth-child(5)::before,.chars-tbl td:nth-child(6)::before{font-size:13px;color:var(--muted)}
+.chars-tbl .pw-row input{width:auto}
+}
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .empty{padding:28px 16px;color:var(--muted);text-align:center}
 textarea{width:100%;min-height:9em;padding:12px;border:0;border-bottom:1px solid var(--line);background:var(--paper);resize:vertical;line-height:1.7;display:block}
@@ -165,7 +177,7 @@ footer{padding-block:28px 36px;color:var(--desk-muted);font-size:13.5px}
 
     <section class="sec" id="chars">
       <div class="sec-head"><h2>표본 배정 현황</h2><p>참가자 파일 암호는 결과 화면에 그대로 보여 주고, '캐릭터 파일 확인하러 가기'에서 파일을 여는 데 씁니다. 실제 파일 암호와 같아야 합니다.</p></div>
-      <div class="card"><div class="tbl"><table><thead><tr><th>표본</th><th>캐릭터</th><th>코드</th><th>강도</th><th>참가자 파일 암호</th><th>배정된 사람</th></tr></thead><tbody id="char-body"></tbody></table></div></div>
+      <div class="card"><div class="tbl"><table class="chars-tbl"><thead><tr><th>표본</th><th>캐릭터</th><th>코드</th><th>강도</th><th>참가자 파일 암호</th><th>배정된 사람</th></tr></thead><tbody id="char-body"></tbody></table></div></div>
     </section>
 
     <section class="sec" id="people">
@@ -260,7 +272,7 @@ function draw(r){
     var v=$("char-body").querySelector('input[data-no="'+b.dataset.pw+'"]').value.trim();act("file_pw",{no:+b.dataset.pw,file_pw:v},b)})});
   /* 명단 */
   var done={};res.forEach(function(x){done[x.name]=1});
-  $("chips").innerHTML=(r.people||[]).map(function(n,i){return '<span class="chip'+(done[n]?' done':'')+'">'+esc(n)+(done[n]?' · 완료':'')+'<button type="button" data-rm="'+i+'" aria-label="'+esc(n)+' 명단에서 삭제">×</button></span>'}).join("")||'<span class="muted" style="font-size:14px">명단이 비어 있습니다. 명단이 비어 있으면 누구도 검사를 받을 수 없습니다.</span>';
+  $("chips").innerHTML=(r.people||[]).map(function(n,i){return '<span class="chip'+(done[n]?' done':'')+'">'+esc(n)+(done[n]?' · 완료':'')+'<button type="button" data-rm="'+i+'" aria-label="'+esc(n)+' 명단에서 삭제">×</button></span>'}).join("")||'<span class="muted" style="font-size:14px;display:inline-block;padding-bottom:5px">명단이 비어 있습니다. 명단이 비어 있으면 누구도 검사를 받을 수 없습니다.</span>';
 }
 function detail(x){
   var bars=x.sums.map(function(s,k){var lt=LT[k],rt=RT[k],on=x.code[k];
